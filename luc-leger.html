@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TestSixième — Luc-Léger</title>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/lucleger.js"></script>
+</head><body>
+<div class="container">
+  <div class="header">
+    <div class="brand">
+      <div class="logo">LL</div>
+      <div class="title">
+        <strong>Navette Luc-Léger 20 m</strong>
+        <small>Affichage élève — bips synchronisés (calculés)</small>
+      </div>
+    </div>
+    <div class="nav">
+      <span class="badge" id="ident-badge"></span>
+      <a class="btn" href="tests.html">Retour</a>
+      <a class="btn" href="saut.html">Saut</a>
+      <a class="btn" href="vitesse.html">Vitesse</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="kpi"><div>Palier</div><div class="big" id="palier">1</div></div>
+    <div class="kpi"><div>Navette</div><div class="big"><span id="navette">1</span></div></div>
+    <div class="kpi"><div>VMA (km/h)</div><div class="big" id="vma">8.5 km/h</div><div class="notice" id="sec20">--</div></div>
+    <div class="kpi"><div>Bip dans</div><div class="big" id="bipdans">--</div></div>
+  </div>
+  <div class="progress"><div id="bar"></div></div>
+  <p class="notice">Au bip, atteindre la ligne. Rester derrière la ligne jusqu’au bip suivant.</p>
+
+  <div class="row">
+    <button id="startbtn" class="btn green">Démarrer</button>
+    <button id="reinitbtn" class="btn">Réinitialiser</button>
+    <button id="stopbtn" class="btn yellow">Arrêter (noter palier)</button>
+  </div>
+
+  <hr/>
+  <p class="notice">La VMA est estimée à partir du dernier palier complété : VMA = 8,5 + 0,5 × palier.</p>
+
+  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
+</div>
+<script src="assets/js/ui.js"></script>
+</body></html>

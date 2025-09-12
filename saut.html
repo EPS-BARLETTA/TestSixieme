@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TestSixième — Saut sans élan</title>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/saut.js"></script>
+</head><body>
+<div class="container">
+  <div class="header">
+    <div class="brand">
+      <div class="logo">SL</div>
+      <div class="title">
+        <strong>Saut en longueur sans élan</strong>
+        <small>Trois essais — meilleur conservé</small>
+      </div>
+    </div>
+    <div class="nav">
+      <span class="badge" id="ident-badge"></span>
+      <a class="btn" href="tests.html">Retour</a>
+      <a class="btn" href="luc-leger.html">Endurance</a>
+      <a class="btn" href="vitesse.html">Vitesse</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div style="flex:1"><label>Essai 1 (cm)</label><input id="essai1" class="input" type="number" min="0" step="1" placeholder="160"/></div>
+      <div style="flex:1"><label>Essai 2 (cm)</label><input id="essai2" class="input" type="number" min="0" step="1" placeholder="165"/></div>
+      <div style="flex:1"><label>Essai 3 (cm)</label><input id="essai3" class="input" type="number" min="0" step="1" placeholder="0"/></div>
+    </div>
+    <div class="row">
+      <div class="kpi"><div>Meilleur</div><div class="big" id="best">-</div></div>
+      <div style="flex:1"></div>
+    </div>
+    <div class="row">
+      <button id="savesaut" class="btn primary">Enregistrer le saut</button>
+    </div>
+  </div>
+
+  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
+</div>
+<script src="assets/js/ui.js"></script>
+</body></html>

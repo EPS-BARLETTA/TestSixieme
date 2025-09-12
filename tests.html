@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TestSixième — Tests</title>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+</head><body>
+<div class="container">
+  <div class="header">
+    <div class="brand">
+      <div class="logo">6e</div>
+      <div class="title">
+        <strong>TestSixième</strong>
+        <small>Centre des tests</small>
+      </div>
+    </div>
+    <div class="nav">
+      <span class="badge" id="ident-badge">Identité non définie</span>
+      <a class="btn" href="index.html">Accueil</a>
+      <a class="btn" href="aide.html">Aide</a>
+      <a class="btn" href="securite.html">Sécurité</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Identité élève</h3>
+    <div class="row">
+      <div style="flex:1">
+        <label>Nom</label>
+        <input id="nom" class="input" placeholder="DUPONT"/>
+      </div>
+      <div style="flex:1">
+        <label>Prénom</label>
+        <input id="prenom" class="input" placeholder="Léa"/>
+      </div>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <label>Classe</label>
+        <input id="classe" class="input" placeholder="6B"/>
+      </div>
+      <div style="flex:1">
+        <label>Sexe</label>
+        <select id="sexe" class="input">
+          <option value="">—</option>
+          <option>F</option>
+          <option>M</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <button id="save-identite" class="btn">Enregistrer l’identité</button>
+    </div>
+  </div>
+
+  <h2>Choisir un test</h2>
+  <div class="grid cards">
+    <a class="card" href="luc-leger.html">
+      <div class="badge">Endurance</div>
+      <h3>Navette Luc-Léger 20 m</h3>
+      <p class="notice">Affichage élève + bips · palier → VMA</p>
+    </a>
+    <a class="card" href="saut.html">
+      <div class="badge">Force</div>
+      <h3>Saut en longueur sans élan</h3>
+      <p class="notice">3 essais · meilleur en cm</p>
+    </a>
+    <a class="card" href="vitesse.html">
+      <div class="badge">Vitesse</div>
+      <h3>30 m départ arrêté</h3>
+      <p class="notice">Chrono au centième</p>
+    </a>
+  </div>
+
+  <hr/>
+  <div class="card">
+    <h3>QR récapitulatif (unique) — à scanner avec ScanProf</h3>
+    <p class="notice">Génère un QR avec Endurance (palier + VMA), Saut (best cm) et 30 m (s) + identité.</p>
+    <div class="row">
+      <button id="gen-json" class="btn">Voir JSON</button>
+      <button id="gen-qr" class="btn primary">Générer le QR</button>
+      <button id="clear" class="btn red">Réinitialiser tout</button>
+    </div>
+    <pre id="json" class="card" style="max-height:220px;overflow:auto;font-size:12px"></pre>
+    <div id="qrcode" class="card" style="display:grid;place-items:center"></div>
+  </div>
+
+  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+bindIdentityForm();
+
+document.getElementById('gen-json').addEventListener('click', ()=>{
+  const ident = getCurrentIdentity();
+  if(!ident || !ident.Nom || !ident.Prenom || !ident.Classe || !ident.Sexe){ alert('Complétez l’identité'); return; }
+  const payload = buildQrPayload(ident);
+  document.getElementById('json').textContent = JSON.stringify(payload,null,2);
+});
+
+document.getElementById('gen-qr').addEventListener('click', ()=>{
+  const ident = getCurrentIdentity();
+  if(!ident || !ident.Nom || !ident.Prenom || !ident.Classe || !ident.Sexe){ alert('Complétez l’identité'); return; }
+  const payload = buildQrPayload(ident);
+  document.getElementById('json').textContent = JSON.stringify(payload,null,2);
+  document.getElementById('qrcode').innerHTML = '';
+  new QRCode(document.getElementById('qrcode'), {
+    text: JSON.stringify(payload),
+    width: 220, height: 220
+  });
+});
+
+document.getElementById('clear').addEventListener('click', ()=>{
+  localStorage.removeItem('tests6e.results');
+  alert('Résultats effacés pour ce navigateur.');
+});
+
+</script>
+</body></html>
