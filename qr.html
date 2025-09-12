@@ -2,65 +2,80 @@
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TestSixième — QR</title>
 <style>
-:root{--ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;--acc:#0ea5e9;--acc2:#7c3aed;--ok:#16a34a;--warn:#f59e0b;--danger:#ef4444}
+:root{
+  --ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;
+  --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;
+  --orange:#f59e0b;--violet:#7c3aed;
+}
 *{box-sizing:border-box} html,body{height:100%}
-body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);
-background:radial-gradient(1200px 600px at 20% -10%, rgba(14,165,233,.12), transparent 60%),radial-gradient(900px 420px at 90% 0%, rgba(124,58,237,.12), transparent 60%),linear-gradient(180deg,#f8fafc 0%, #eef2ff 60%, #f8fafc 100%);
-display:flex;flex-direction:column;min-height:100vh}
-.container{width:100%;max-width:1040px;margin:0 auto;padding:20px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,#111827,#334155);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;box-shadow:0 10px 24px rgba(17,24,39,.28)}
-.title strong{font-weight:800;letter-spacing:.3px}
-.title small{display:block;color:var(--muted);font-size:12px}
-.nav{display:flex;gap:10px;flex-wrap:wrap}
+body{
+  margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 600px at 20% -10%, rgba(59,130,246,.10), transparent 60%),
+             radial-gradient(900px 420px at 90% 0%, rgba(124,58,237,.10), transparent 60%),
+             linear-gradient(180deg,#f8fafc 0%, #eef2ff 60%, #f8fafc 100%);
+  display:flex;flex-direction:column;min-height:100vh
+}
+.container{width:100%;max-width:980px;margin:0 auto;padding:20px;display:flex;flex-direction:column;min-height:100vh}
+.footer{margin-top:auto;padding:28px 0;color:#94a3b8;text-align:center;font-size:12px}
+.center{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+h1{font-size:56px;margin:8vh 0 8px;letter-spacing:.3px}
+.hero-actions{display:flex;flex-direction:column;gap:12px;align-items:center}
 .btn{padding:14px 18px;border-radius:16px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
 .btn:hover{transform:translateY(-1px)}
-.btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:none;box-shadow:0 12px 30px rgba(14,165,233,.25)}
-.btn.green{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;box-shadow:0 12px 30px rgba(34,197,94,.25)}
-.btn.orange{background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;border:none;box-shadow:0 12px 30px rgba(245,158,11,.25)}
-.footer{margin-top:auto;padding:28px 0;color:#94a3b8;text-align:center;font-size:12px}
-.center{min-height:60vh;display:grid;place-items:center;padding:16px}
-.hero{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;max-width:880px}
-.hero h1{font-size:56px;margin:0;letter-spacing:.4px}
-.hero p{margin:0;color:#334155;font-size:18px}
-.hero .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)}
+.btn.help{background:linear-gradient(135deg,var(--orange),#fb923c);color:#fff;border:none}
+.btn.safe{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none}
 .grid{display:grid;gap:16px}
-.grid.cards{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 12px 36px rgba(10,18,40,.08)}
+.grid.cards{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+            align-items:stretch;justify-items:stretch}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:0 10px 28px rgba(10,18,40,.08)}
 .card h3{margin:6px 0}
 label{font-size:13px;color:#475569;display:block;margin-bottom:6px}
 .input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:14px;background:#fff}
 .row{display:flex;gap:12px;flex-wrap:wrap}
-.col{flex:1;min-width:240px}
-.big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
-.big-btn{display:block;min-width:300px;text-align:center;padding:18px 22px;border-radius:18px;color:#fff;font-weight:800;font-size:18px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
-.big-btn.blue{background:linear-gradient(135deg,var(--acc),var(--acc2))}
-.big-btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
-.big-btn.orange{background:linear-gradient(135deg,#f59e0b,#f97316)}
+.col{flex:1;min-width:220px}
+.sticky-actions{position:sticky;bottom:0;display:flex;gap:10px;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);padding:10px 0}
+.badge{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
 .kpi{flex:1;min-width:220px;background:rgba(255,255,255,.9);border:1px solid var(--border);padding:16px;border-radius:18px;box-shadow:0 8px 24px rgba(10,18,40,.08)}
 .kpi .big{font-size:36px;font-weight:800}
+/* Élève themes */
+.e1 {--accent: var(--blue); --accent2: var(--blue2);}
+.e2 {--accent: var(--green); --accent2: var(--green2);}
+.card.e1, .kpi.e1 {border-color:rgba(37,99,235,.35)}
+.card.e2, .kpi.e2 {border-color:rgba(22,163,74,.35)}
+.tag{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700}
+/* Prof Luc-Léger */
 .progress{height:16px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 2px 8px rgba(0,0,0,.06)}
-.progress>div{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0}
-.badge{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
-.notice{font-size:13px;color:#475569}
-.sticky-actions{position:sticky;bottom:0;display:flex;gap:10px;justify-content:flex-end;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);padding-top:10px;padding-bottom:6px}
+.progress>div{height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));width:0}
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;z-index:50}
+.modal{background:#fff;border-radius:18px;padding:20px;max-width:420px;width:92%;box-shadow:0 12px 36px rgba(0,0,0,.25)}
+/* Vitesse chronos */
+.chrono-box{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.live{font-variant-numeric:tabular-nums; font-size:40px; font-weight:800; letter-spacing:.5px; padding:6px 10px; border-radius:12px; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent2)); min-width:140px; text-align:center}
+.big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
+.big-btn{display:block;min-width:320px;text-align:center;padding:18px 22px;border-radius:18px;color:#fff;font-weight:800;font-size:18px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
+.big-btn.blue{background:linear-gradient(135deg,var(--blue),var(--violet))}
+.big-btn.green{background:linear-gradient(135deg,var(--green),var(--green2))}
+.big-btn.orange{background:linear-gradient(135deg,var(--orange),#fb923c)}
 pre{white-space:pre-wrap;background:#0b1224;color:#dbeafe;padding:12px;border-radius:12px;overflow:auto}
 </style>
 </head><body>
 <div class="container">
-  <div class="header">
-    <div class="brand"><div class="logo">QR</div><div class="title"><strong>QR récapitulatif</strong><small>Un QR par élève (compatible ScanProf)</small></div></div>
-    <div class="nav"><a class="btn" href="menu.html">Menu</a></div>
+  <div class="center" style="gap:6px; margin-bottom:10px;">
+    <div class="tag" style="background:linear-gradient(135deg,#0ea5e9,#7c3aed)">TestSixième</div>
+    <div class="notice">QR avec deux élèves — format lignes</div>
   </div>
   
-<div class="grid cards">
-  <div class="card"><h3>QR Élève 1</h3><div id="q1" style="display:grid;place-items:center"></div></div>
-  <div class="card"><h3>QR Élève 2</h3><div id="q2" style="display:grid;place-items:center"></div></div>
+<div class="center" style="gap:10px">
+  <div class="tag">Élèves : <span id="n1"></span> · <span id="n2"></span></div>
+  <div id="qrcode" style="display:grid;place-items:center;margin-top:8px"></div>
+  <div class="notice">Le code contient deux lignes : une par élève (Nom, Prénom, Classe, Sexe, VMA, Longueur, Vitesse).</div>
+  <div class="sticky-actions">
+    <a class="btn" href="menu.html">Menu</a>
+    <a class="btn primary" id="regen">Régénérer</a>
+  </div>
+  <pre id="preview"></pre>
 </div>
-<div class="card"><h3>Option : QR Double (archive)</h3><div id="qd" style="display:grid;place-items:center"></div><div class="notice">Certains lecteurs ne déclenchent que sur un élève par QR. Utilisez le double uniquement pour archivage.</div></div>
-<div class="sticky-actions"><button id="gen" class="btn primary">Régénérer</button><a class="btn" href="menu.html">Retour</a></div>
-<pre id="json"></pre>
 
   <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
 </div>
@@ -71,22 +86,31 @@ function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch
 function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
 function ensure(){let d=getDuo();if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}};saveDuo(d)}return getDuo()}
 function identOK(i){const e=ensure().eleves[i];return e&&e.Nom&&e.Prenom&&e.Classe&&e.Sexe}
-function buildQrSingle(i){const d=ensure();const e=d.eleves[i];const node={app:'Aptitudes6e',version:1,eleve:e,tests:{}};if(d.tests.Endurance[i])node.tests.Endurance=d.tests.Endurance[i];if(d.tests.Saut[i])node.tests.Saut=d.tests.Saut[i];if(d.tests.Vitesse[i])node.tests.Vitesse=d.tests.Vitesse[i];return node}
-function buildQrDouble(){const d=ensure();const pack=[buildQrSingle(0),buildQrSingle(1)];return {pack,meta:{date:new Date().toISOString().slice(0,10),source:'TestSixieme'}}}
 function go(h){location.href=h}
+function labelEleve(i){const d=ensure(); const e=d.eleves[i]||{}; return (e.Prenom||'')+' '+(e.Nom||'');}
 </script>
 <script>
-function payloadSingle(i){return buildQrSingle(i)}
-function payloadDouble(){return buildQrDouble()}
-function gen(){
-  if(!(identOK(0)&&identOK(1))){ alert('Identité incomplète'); return; }
-  const p1=payloadSingle(0), p2=payloadSingle(1), pd=payloadDouble();
-  document.getElementById('json').textContent=JSON.stringify({eleve1:p1, eleve2:p2, double:pd}, null, 2);
-  ['q1','q2','qd'].forEach(id=>document.getElementById(id).innerHTML='');
-  new QRCode(document.getElementById('q1'),{text:JSON.stringify(p1),width:260,height:260});
-  new QRCode(document.getElementById('q2'),{text:JSON.stringify(p2),width:260,height:260});
-  new QRCode(document.getElementById('qd'),{text:JSON.stringify(pd),width:260,height:260});
+function vmaFrom(i){const d=ensure(); const t=d.tests.Endurance[i]; if(t && t.vma_kmh!=null) return t.vma_kmh; if(t && t.palier!=null) return +(8.5+0.5*t.palier).toFixed(1); return '';}
+function longueurFrom(i){const d=ensure(); const t=d.tests.Saut[i]; return t && t.best_cm!=null ? t.best_cm : '';}
+function vitesseFrom(i){const d=ensure(); const t=d.tests.Vitesse[i]; return t && t.t_30m_s!=null ? t.t_30m_s : '';}
+function lineFor(i){
+  const d=ensure(); const e=d.eleves[i];
+  const VMA=vmaFrom(i), L=longueurFrom(i), V=vitesseFrom(i);
+  return [e.Nom, e.Prenom, e.Classe, e.Sexe, `VMA=${VMA}`, `Longueur=${L}`, `Vitesse=${V}`].join(';');
 }
-document.addEventListener('DOMContentLoaded',()=>{ gen(); document.getElementById('gen').onclick=gen; });
+function makePayloadLines(){ return lineFor(0) + "\n" + lineFor(1); }
+function gen(){
+  if(!(identOK(0)&&identOK(1))){ alert('Complétez l’identité de 2 élèves.'); go('identite.html'); return; }
+  document.getElementById('n1').textContent = labelEleve(0);
+  document.getElementById('n2').textContent = labelEleve(1);
+  const text = makePayloadLines();
+  document.getElementById('preview').textContent = text;
+  const node=document.getElementById('qrcode'); node.innerHTML='';
+  new QRCode(node,{text:text,width:320,height:320});
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  gen();
+  document.getElementById('regen').onclick=gen;
+});
 </script>
 </body></html>

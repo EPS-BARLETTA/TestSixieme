@@ -2,81 +2,85 @@
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TestSixième — Sécurité</title>
 <style>
-:root{--ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;--acc:#0ea5e9;--acc2:#7c3aed;--ok:#16a34a;--warn:#f59e0b;--danger:#ef4444}
+:root{
+  --ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;
+  --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;
+  --orange:#f59e0b;--violet:#7c3aed;
+}
 *{box-sizing:border-box} html,body{height:100%}
-body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);
-background:radial-gradient(1200px 600px at 20% -10%, rgba(14,165,233,.12), transparent 60%),radial-gradient(900px 420px at 90% 0%, rgba(124,58,237,.12), transparent 60%),linear-gradient(180deg,#f8fafc 0%, #eef2ff 60%, #f8fafc 100%);
-display:flex;flex-direction:column;min-height:100vh}
-.container{width:100%;max-width:1040px;margin:0 auto;padding:20px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,#111827,#334155);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;box-shadow:0 10px 24px rgba(17,24,39,.28)}
-.title strong{font-weight:800;letter-spacing:.3px}
-.title small{display:block;color:var(--muted);font-size:12px}
-.nav{display:flex;gap:10px;flex-wrap:wrap}
+body{
+  margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 600px at 20% -10%, rgba(59,130,246,.10), transparent 60%),
+             radial-gradient(900px 420px at 90% 0%, rgba(124,58,237,.10), transparent 60%),
+             linear-gradient(180deg,#f8fafc 0%, #eef2ff 60%, #f8fafc 100%);
+  display:flex;flex-direction:column;min-height:100vh
+}
+.container{width:100%;max-width:980px;margin:0 auto;padding:20px;display:flex;flex-direction:column;min-height:100vh}
+.footer{margin-top:auto;padding:28px 0;color:#94a3b8;text-align:center;font-size:12px}
+.center{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+h1{font-size:56px;margin:8vh 0 8px;letter-spacing:.3px}
+.hero-actions{display:flex;flex-direction:column;gap:12px;align-items:center}
 .btn{padding:14px 18px;border-radius:16px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
 .btn:hover{transform:translateY(-1px)}
-.btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:none;box-shadow:0 12px 30px rgba(14,165,233,.25)}
-.btn.green{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;box-shadow:0 12px 30px rgba(34,197,94,.25)}
-.btn.orange{background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;border:none;box-shadow:0 12px 30px rgba(245,158,11,.25)}
-.footer{margin-top:auto;padding:28px 0;color:#94a3b8;text-align:center;font-size:12px}
-.center{min-height:60vh;display:grid;place-items:center;padding:16px}
-.hero{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;max-width:880px}
-.hero h1{font-size:56px;margin:0;letter-spacing:.4px}
-.hero p{margin:0;color:#334155;font-size:18px}
-.hero .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)}
+.btn.help{background:linear-gradient(135deg,var(--orange),#fb923c);color:#fff;border:none}
+.btn.safe{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none}
 .grid{display:grid;gap:16px}
-.grid.cards{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 12px 36px rgba(10,18,40,.08)}
+.grid.cards{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+            align-items:stretch;justify-items:stretch}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:0 10px 28px rgba(10,18,40,.08)}
 .card h3{margin:6px 0}
 label{font-size:13px;color:#475569;display:block;margin-bottom:6px}
 .input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:14px;background:#fff}
 .row{display:flex;gap:12px;flex-wrap:wrap}
-.col{flex:1;min-width:240px}
-.big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
-.big-btn{display:block;min-width:300px;text-align:center;padding:18px 22px;border-radius:18px;color:#fff;font-weight:800;font-size:18px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
-.big-btn.blue{background:linear-gradient(135deg,var(--acc),var(--acc2))}
-.big-btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
-.big-btn.orange{background:linear-gradient(135deg,#f59e0b,#f97316)}
+.col{flex:1;min-width:220px}
+.sticky-actions{position:sticky;bottom:0;display:flex;gap:10px;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);padding:10px 0}
+.badge{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
 .kpi{flex:1;min-width:220px;background:rgba(255,255,255,.9);border:1px solid var(--border);padding:16px;border-radius:18px;box-shadow:0 8px 24px rgba(10,18,40,.08)}
 .kpi .big{font-size:36px;font-weight:800}
+/* Élève themes */
+.e1 {--accent: var(--blue); --accent2: var(--blue2);}
+.e2 {--accent: var(--green); --accent2: var(--green2);}
+.card.e1, .kpi.e1 {border-color:rgba(37,99,235,.35)}
+.card.e2, .kpi.e2 {border-color:rgba(22,163,74,.35)}
+.tag{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700}
+/* Prof Luc-Léger */
 .progress{height:16px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 2px 8px rgba(0,0,0,.06)}
-.progress>div{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0}
-.badge{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
-.notice{font-size:13px;color:#475569}
-.sticky-actions{position:sticky;bottom:0;display:flex;gap:10px;justify-content:flex-end;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);padding-top:10px;padding-bottom:6px}
+.progress>div{height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));width:0}
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;z-index:50}
+.modal{background:#fff;border-radius:18px;padding:20px;max-width:420px;width:92%;box-shadow:0 12px 36px rgba(0,0,0,.25)}
+/* Vitesse chronos */
+.chrono-box{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.live{font-variant-numeric:tabular-nums; font-size:40px; font-weight:800; letter-spacing:.5px; padding:6px 10px; border-radius:12px; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent2)); min-width:140px; text-align:center}
+.big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
+.big-btn{display:block;min-width:320px;text-align:center;padding:18px 22px;border-radius:18px;color:#fff;font-weight:800;font-size:18px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
+.big-btn.blue{background:linear-gradient(135deg,var(--blue),var(--violet))}
+.big-btn.green{background:linear-gradient(135deg,var(--green),var(--green2))}
+.big-btn.orange{background:linear-gradient(135deg,var(--orange),#fb923c)}
 pre{white-space:pre-wrap;background:#0b1224;color:#dbeafe;padding:12px;border-radius:12px;overflow:auto}
 </style>
 </head><body>
 <div class="container">
-  <div class="header">
-    <div class="brand"><div class="logo">6e</div><div class="title"><strong>TestSixième</strong><small>Évaluations 6e — Endurance · Saut · Vitesse</small></div></div>
-    <div class="nav"><a class="btn" href="aide.html">Aide</a><a class="btn" href="securite.html">Sécurité</a></div>
+  
+  <div class="center" style="gap:6px; margin-bottom:10px;">
+    <div class="tag" style="background:linear-gradient(135deg,#0ea5e9,#7c3aed)">TestSixième</div>
+    <div class="notice">Endurance · Saut · Vitesse</div>
   </div>
   
-<div class="card">
-  <h3>Consignes générales</h3>
+<div class="center"><div class="card" style="max-width:760px">
+  <h3>Consignes générales de sécurité</h3>
   <ul>
     <li>Échauffement préalable, hydratation, tenue adaptée.</li>
-    <li>Arrêt immédiat en cas de douleur, gêne respiratoire ou malaise.</li>
-    <li>Zones dégagées, surface non glissante, plots et lignes clairement visibles.</li>
+    <li>Arrêt immédiat en cas de douleur, gêne respiratoire, malaise.</li>
+    <li>Zones dégagées, surface non glissante, plots/lignes visibles.</li>
   </ul>
-</div>
-<div class="grid cards">
-  <div class="card">
-    <h3>Vitesse — 30 m</h3>
-    <ul><li>Départ arrêté derrière la ligne.</li><li>Zone d’élan dégagée, freinage sécurisé.</li><li>Un élève chronomètre, l’autre court.</li></ul>
-  </div>
-  <div class="card">
-    <h3>Saut sans élan</h3>
-    <ul><li>Pieds joints, réception contrôlée.</li><li>Mesure au talon le plus proche.</li><li>Espace libre devant la zone de chute.</li></ul>
-  </div>
-  <div class="card">
-    <h3>Endurance — Luc-Léger</h3>
-    <ul><li>Distance 20 m matérialisée (lignes/plots).</li><li>Respect du rythme sonore (bip court/long).</li><li>Arrêt si retard répété ou signe de fatigue anormale.</li></ul>
-  </div>
-</div>
-<div class="sticky-actions"><a class="btn" href="index.html">Accueil</a></div>
+  <h4>Spécifiques</h4>
+  <ul>
+    <li><strong>Vitesse 30 m</strong> : départ arrêté, aire dégagée, freinage sécurisé, un observateur chronomètre.</li>
+    <li><strong>Saut sans élan</strong> : pieds joints, mesure au talon le plus proche, réception contrôlée.</li>
+    <li><strong>Luc‑Léger</strong> : 20 m matérialisés, respect des bips, arrêt si retard répété.</li>
+  </ul>
+</div></div>
 
   <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
 </div>
@@ -86,9 +90,8 @@ function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch
 function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
 function ensure(){let d=getDuo();if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}};saveDuo(d)}return getDuo()}
 function identOK(i){const e=ensure().eleves[i];return e&&e.Nom&&e.Prenom&&e.Classe&&e.Sexe}
-function buildQrSingle(i){const d=ensure();const e=d.eleves[i];const node={app:'Aptitudes6e',version:1,eleve:e,tests:{}};if(d.tests.Endurance[i])node.tests.Endurance=d.tests.Endurance[i];if(d.tests.Saut[i])node.tests.Saut=d.tests.Saut[i];if(d.tests.Vitesse[i])node.tests.Vitesse=d.tests.Vitesse[i];return node}
-function buildQrDouble(){const d=ensure();const pack=[buildQrSingle(0),buildQrSingle(1)];return {pack,meta:{date:new Date().toISOString().slice(0,10),source:'TestSixieme'}}}
 function go(h){location.href=h}
+function labelEleve(i){const d=ensure(); const e=d.eleves[i]||{}; return (e.Prenom||'')+' '+(e.Nom||'');}
 </script>
 <script></script>
 </body></html>
