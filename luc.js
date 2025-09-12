@@ -1,0 +1,24 @@
+let running=false, palier=1, shuttle=1, lastTs=0, secondsLeft=0, secPerShuttle=0, raf=null;
+function vmaFromPalier(p){ return 8.5 + 0.5*p; }
+function secPerShuttleFromV(vkmh){ const v=vkmh*1000/3600; return 20/v; }
+
+function initLL(){
+  ensureIdentityOrRedirect();
+  palier=1; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle;
+  updateLL();
+}
+function updateLL(){
+  const vma=vmaFromPalier(palier);
+  $('#palier').textContent=palier;
+  $('#navette').textContent=shuttle;
+  $('#vma').textContent=vma.toFixed(1)+' km/h';
+  $('#bipdans').textContent=secondsLeft.toFixed(1)+' s';
+  $('#sec20').textContent=secPerShuttle.toFixed(1)+' s / 20 m';
+  $('#bar').style.width = Math.max(0,Math.min(100,(1-secondsLeft/secPerShuttle)*100))+'%';
+}
+function beep(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const o=ctx.createOscillator(); const g=ctx.createGain(); o.type='sine'; o.frequency.value=880; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(.0001,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.35,ctx.currentTime+.01); g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.22); o.start(); o.stop(ctx.currentTime+.24);}catch{} }
+function loop(ts){ if(!running) return; const dt=(ts-lastTs)/1000; lastTs=ts; secondsLeft-=dt; if(secondsLeft<=0){ beep(); const navettesInPalier=Math.max(1,Math.round(60/secPerShuttle)); if(shuttle>=navettesInPalier){ palier+=1; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; } else { shuttle+=1; secondsLeft=secPerShuttle; } } updateLL(); raf=requestAnimationFrame(loop); }
+function toggleRun(){ if(!running){ running=true; lastTs=performance.now(); $('#startbtn').textContent='Pause'; raf=requestAnimationFrame(loop);} else { running=false; $('#startbtn').textContent='Démarrer'; } }
+function reinitLL(){ running=false; palier=1; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; updateLL(); $('#startbtn').textContent='Démarrer'; }
+function stopAtCurrentPalier(){ const ident=getCurrentIdentity(); const vma=vmaFromPalier(palier); saveResults(ident,{tests:{Endurance:{type:'LucLeger20m', palier:palier, vma_kmh:Number(vma.toFixed(1))}}}); alert(`Endurance enregistré : palier ${palier} (VMA ${vma.toFixed(1)} km/h)`); }
+document.addEventListener('DOMContentLoaded', ()=>{ initLL(); $('#startbtn').addEventListener('click',toggleRun); $('#reinitbtn').addEventListener('click',reinitLL); $('#stopbtn').addEventListener('click',stopAtCurrentPalier); });

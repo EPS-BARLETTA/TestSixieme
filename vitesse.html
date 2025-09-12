@@ -3,39 +3,41 @@
 <title>TestSixième — 30 m</title>
 <link rel="stylesheet" href="assets/css/styles.css"/>
 <script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
 <script src="assets/js/vitesse.js"></script>
 </head><body>
-<div class="container">
+<div class="wrapper"><div class="container">
   <div class="header">
     <div class="brand">
       <div class="logo">30</div>
       <div class="title">
-        <strong>Course 30 m départ arrêté</strong>
-        <small>Chrono au centième</small>
+        <strong>Course 30 m (départ arrêté)</strong>
+        <small>Chrono élève-observateur + saisie manuelle</small>
       </div>
     </div>
     <div class="nav">
       <span class="badge" id="ident-badge"></span>
-      <a class="btn" href="tests.html">Retour</a>
+      <a class="btn" href="tests.html">Tests</a>
       <a class="btn" href="luc-leger.html">Endurance</a>
       <a class="btn" href="saut.html">Saut</a>
     </div>
   </div>
 
   <div class="card">
-    <div class="row">
-      <div class="kpi"><div>Chrono</div><div class="big" id="chrono">0.00 s</div></div>
-      <button id="startstop" class="btn green">Start</button>
+    <div class="row" style="align-items:center">
+      <div class="col">
+        <label>Temps (s)</label>
+        <input id="chrono" class="input" type="number" min="0" step="0.01" placeholder="0.00"/>
+        <p class="notice">Se remplit après Stop. Modifiable en cas d’erreur (valeur du juge).</p>
+      </div>
+      <div>
+        <button id="startstop" class="btn green" style="min-width:120px">Start</button>
+      </div>
     </div>
-    <div class="row">
-      <div style="flex:1"><label>Ou saisie manuelle (s)</label><input id="manual" class="input" type="number" min="0" step="0.01" placeholder="5.72"/></div>
-    </div>
-    <div class="row">
+    <div class="sticky-actions">
       <button id="savevitesse" class="btn primary">Enregistrer le temps</button>
     </div>
   </div>
 
-  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
-</div>
-<script src="assets/js/ui.js"></script>
+</div><div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div></div>
 </body></html>
