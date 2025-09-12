@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TestSixième — Identité</title>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+</head><body>
+<div class="wrapper"><div class="container">
+  <div class="header">
+    <div class="brand"><div class="logo">6e</div><div class="title"><strong>TestSixième</strong><small>Saisie de 2 élèves</small></div></div>
+    <div class="nav"><a class="btn" href="index.html">Accueil</a></div>
+  </div>
+
+  <div class="grid cards">
+    <div class="card" data-eleve="0">
+      <h3>Élève 1</h3>
+      <div class="row">
+        <div class="col"><label>Nom</label><input class="input nom" placeholder="DUPONT"></div>
+        <div class="col"><label>Prénom</label><input class="input prenom" placeholder="Léa"></div>
+      </div>
+      <div class="row">
+        <div class="col"><label>Classe</label><input class="input classe" placeholder="6B"></div>
+        <div class="col"><label>Sexe</label><select class="input sexe"><option value="">—</option><option>F</option><option>M</option></select></div>
+      </div>
+    </div>
+    <div class="card" data-eleve="1">
+      <h3>Élève 2</h3>
+      <div class="row">
+        <div class="col"><label>Nom</label><input class="input nom" placeholder="MARTIN"></div>
+        <div class="col"><label>Prénom</label><input class="input prenom" placeholder="Noah"></div>
+      </div>
+      <div class="row">
+        <div class="col"><label>Classe</label><input class="input classe" placeholder="6B"></div>
+        <div class="col"><label>Sexe</label><select class="input sexe"><option value="">—</option><option>F</option><option>M</option></select></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-actions">
+    <button id="save-duo" class="btn">Enregistrer</button>
+    <a class="btn primary" href="menu.html">Démarrer</a>
+  </div>
+</div><div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div></div>
+<script>bindDuoIdentity();</script>
+</body></html>
