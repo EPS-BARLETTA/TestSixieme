@@ -1,34 +1,84 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Identité</title><style>
-body{margin:0;font-family:sans-serif;background:#f8fafc;display:flex;flex-direction:column;min-height:100vh}
-h1{text-align:center;margin-top:10vh;font-size:3em;color:#111}
-.footer{margin-top:auto;text-align:center;padding:20px;color:#888;font-size:14px}
-.center{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:20px}
-.btn{padding:14px 24px;border-radius:8px;border:none;font-size:18px;cursor:pointer}
-.primary{background:#2563eb;color:#fff}
-.grid{display:grid;gap:20px;grid-template-columns:1fr 1fr;padding:20px}
-.card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-label{display:block;margin-top:10px}
-input,select{padding:8px;width:100%;margin-top:4px}
-.big-btns{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:40px}
-.big-btn{padding:20px 40px;font-size:20px;border-radius:10px;color:#fff;text-align:center;width:60%}
-.big-btn.blue{background:#2563eb}
-.big-btn.green{background:#16a34a}
-.big-btn.orange{background:#f59e0b}
-</style></head><body>
-<h1>Saisie des élèves</h1>
-<div class="grid">
-  <div class="card" data-i="0"><h3>Élève 1</h3><label>Nom<input class="nom"></label><label>Prénom<input class="prenom"></label><label>Classe<input class="classe"></label><label>Sexe<select class="sexe"><option></option><option>F</option><option>M</option></select></label></div>
-  <div class="card" data-i="1"><h3>Élève 2</h3><label>Nom<input class="nom"></label><label>Prénom<input class="prenom"></label><label>Classe<input class="classe"></label><label>Sexe<select class="sexe"><option></option><option>F</option><option>M</option></select></label></div>
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TestSixième — Identité</title>
+<style>
+:root{--ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;--acc:#0ea5e9;--acc2:#7c3aed;--ok:#16a34a;--warn:#f59e0b;--danger:#ef4444}
+*{box-sizing:border-box} html,body{height:100%}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);
+background:radial-gradient(1200px 600px at 20% -10%, rgba(14,165,233,.12), transparent 60%),radial-gradient(900px 420px at 90% 0%, rgba(124,58,237,.12), transparent 60%),linear-gradient(180deg,#f8fafc 0%, #eef2ff 60%, #f8fafc 100%);
+display:flex;flex-direction:column;min-height:100vh}
+.container{width:100%;max-width:1040px;margin:0 auto;padding:20px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,#111827,#334155);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;box-shadow:0 10px 24px rgba(17,24,39,.28)}
+.title strong{font-weight:800;letter-spacing:.3px}
+.title small{display:block;color:var(--muted);font-size:12px}
+.nav{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:14px 18px;border-radius:16px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:none;box-shadow:0 12px 30px rgba(14,165,233,.25)}
+.btn.green{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;box-shadow:0 12px 30px rgba(34,197,94,.25)}
+.btn.orange{background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;border:none;box-shadow:0 12px 30px rgba(245,158,11,.25)}
+.footer{margin-top:auto;padding:28px 0;color:#94a3b8;text-align:center;font-size:12px}
+.center{min-height:60vh;display:grid;place-items:center;padding:16px}
+.hero{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;max-width:880px}
+.hero h1{font-size:56px;margin:0;letter-spacing:.4px}
+.hero p{margin:0;color:#334155;font-size:18px}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.grid{display:grid;gap:16px}
+.grid.cards{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 12px 36px rgba(10,18,40,.08)}
+.card h3{margin:6px 0}
+label{font-size:13px;color:#475569;display:block;margin-bottom:6px}
+.input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:14px;background:#fff}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.col{flex:1;min-width:240px}
+.big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
+.big-btn{display:block;min-width:300px;text-align:center;padding:18px 22px;border-radius:18px;color:#fff;font-weight:800;font-size:18px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
+.big-btn.blue{background:linear-gradient(135deg,var(--acc),var(--acc2))}
+.big-btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.big-btn.orange{background:linear-gradient(135deg,#f59e0b,#f97316)}
+.kpi{flex:1;min-width:220px;background:rgba(255,255,255,.9);border:1px solid var(--border);padding:16px;border-radius:18px;box-shadow:0 8px 24px rgba(10,18,40,.08)}
+.kpi .big{font-size:36px;font-weight:800}
+.progress{height:16px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 2px 8px rgba(0,0,0,.06)}
+.progress>div{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0}
+.badge{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
+.notice{font-size:13px;color:#475569}
+.sticky-actions{position:sticky;bottom:0;display:flex;gap:10px;justify-content:flex-end;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);padding-top:10px;padding-bottom:6px}
+pre{white-space:pre-wrap;background:#0b1224;color:#dbeafe;padding:12px;border-radius:12px;overflow:auto}
+</style>
+</head><body>
+<div class="container">
+  <div class="header">
+    <div class="brand"><div class="logo">6e</div><div class="title"><strong>TestSixième</strong><small>Évaluations 6e — Endurance · Saut · Vitesse</small></div></div>
+    <div class="nav"><a class="btn" href="aide.html">Aide</a><a class="btn" href="securite.html">Sécurité</a></div>
+  </div>
+  
+<div class="grid cards">
+  <div class="card" data-i="0"><h3>Élève 1</h3>
+    <div class="row"><div class="col"><label>Nom</label><input class="input nom" placeholder="DUPONT"></div><div class="col"><label>Prénom</label><input class="input prenom" placeholder="Léa"></div></div>
+    <div class="row"><div class="col"><label>Classe</label><input class="input classe" placeholder="6B"></div><div class="col"><label>Sexe</label><select class="input sexe"><option value="">—</option><option>F</option><option>M</option></select></div></div>
+  </div>
+  <div class="card" data-i="1"><h3>Élève 2</h3>
+    <div class="row"><div class="col"><label>Nom</label><input class="input nom" placeholder="MARTIN"></div><div class="col"><label>Prénom</label><input class="input prenom" placeholder="Noah"></div></div>
+    <div class="row"><div class="col"><label>Classe</label><input class="input classe" placeholder="6B"></div><div class="col"><label>Sexe</label><select class="input sexe"><option value="">—</option><option>F</option><option>M</option></select></div></div>
+  </div>
 </div>
-<div class="center"><button id="save" class="btn">Enregistrer</button><a href="menu.html"><button class="btn primary">Démarrer</button></a></div>
-<div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
+<div class="sticky-actions"><button id="save" class="btn">Enregistrer</button><a class="btn primary" href="menu.html">Démarrer</a></div>
+
+  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
+</div>
 <script>
 const KEY='ts6e.duo';
 function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
 function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
 function ensure(){let d=getDuo();if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}};saveDuo(d)}return getDuo()}
-function buildQr(){let d=ensure();let pack=d.eleves.map((e,i)=>{let node={app:'Aptitudes6e',version:1,eleve:e,tests:{}};if(d.tests.Endurance[i])node.tests.Endurance=d.tests.Endurance[i];if(d.tests.Saut[i])node.tests.Saut=d.tests.Saut[i];if(d.tests.Vitesse[i])node.tests.Vitesse=d.tests.Vitesse[i];return node});return {pack,meta:{date:new Date().toISOString().slice(0,10),source:'TestSixieme'}}}
-
-document.getElementById('save').onclick=()=>{let d=ensure();[0,1].forEach(i=>{let c=document.querySelector('[data-i="'+i+'"]');d.eleves[i]={Nom:c.querySelector('.nom').value, Prenom:c.querySelector('.prenom').value, Classe:c.querySelector('.classe').value, Sexe:c.querySelector('.sexe').value}});saveDuo(d);alert('Enregistré')};
-</script></body></html>
+function identOK(i){const e=ensure().eleves[i];return e&&e.Nom&&e.Prenom&&e.Classe&&e.Sexe}
+function buildQrSingle(i){const d=ensure();const e=d.eleves[i];const node={app:'Aptitudes6e',version:1,eleve:e,tests:{}};if(d.tests.Endurance[i])node.tests.Endurance=d.tests.Endurance[i];if(d.tests.Saut[i])node.tests.Saut=d.tests.Saut[i];if(d.tests.Vitesse[i])node.tests.Vitesse=d.tests.Vitesse[i];return node}
+function buildQrDouble(){const d=ensure();const pack=[buildQrSingle(0),buildQrSingle(1)];return {pack,meta:{date:new Date().toISOString().slice(0,10),source:'TestSixieme'}}}
+function go(h){location.href=h}
+</script>
+<script>
+document.getElementById('save').onclick=()=>{let d=ensure();[0,1].forEach(i=>{let c=document.querySelector('[data-i="'+i+'"]');d.eleves[i]={Nom:(c.querySelector('.nom').value||'').trim().toUpperCase(),Prenom:(c.querySelector('.prenom').value||'').trim(),Classe:(c.querySelector('.classe').value||'').trim(),Sexe:c.querySelector('.sexe').value||''}});saveDuo(d);alert('Identités enregistrées 👍')};
+</script>
+</body></html>
