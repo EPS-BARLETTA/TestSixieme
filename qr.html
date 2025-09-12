@@ -16,7 +16,16 @@ body{display:flex;align-items:center;justify-content:center;background:#ffffff;f
   <div id="qrcode"></div>
 </div>
 <div class="msg" id="msg">Complétez d’abord les 3 tests pour les 2 élèves.</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+function loadScript(urls, cb){
+  (function next(i){
+    if(i>=urls.length){ cb(new Error('failed')); return; }
+    var s=document.createElement('script'); s.src=urls[i]; s.onload=function(){ cb(null) };
+    s.onerror=function(){ s.remove(); next(i+1); };
+    document.head.appendChild(s);
+  })(0);
+}
+</script>
 <script>
 const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
 function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
@@ -31,7 +40,6 @@ function requireSec(){ if(!secRead()){ alert("Merci de lire la fiche Sécurité 
 function vmaFrom(i){const d=ensure(); const t=d.tests.Endurance[i]; return t && t.vma_kmh!=null ? t.vma_kmh : (t&&t.palier!=null? +(8.5+0.5*t.palier).toFixed(1):0);}
 function bestLongueur(i){const d=ensure(); const t=d.tests.Saut[i]; return t && t.best_cm!=null ? t.best_cm : 0;}
 function vitesseFrom(i){const d=ensure(); const t=d.tests.Vitesse[i]; return t && t.t_30m_s!=null ? t.t_30m_s : 0;}
-
 function allHaveResults(){
   const d=ensure();
   const okEnd = [0,1].every(i=>{ const t=d.tests.Endurance[i]; return t && ((t.vma_kmh>0) || (t.palier>0)); });
@@ -55,8 +63,14 @@ function gen(){
     return;
   }
   const node=document.getElementById('qrcode'); node.innerHTML='';
-  new QRCode(node,{text:JSON.stringify(payload()),width:400,height:400});
+  new QRCode(node,{text:JSON.stringify(payload()),width:420,height:420});
 }
-document.addEventListener('DOMContentLoaded', gen);
+loadScript([
+  "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js",
+  "https://unpkg.com/qrcodejs@1.0.0/qrcode.min.js"
+], function(err){
+  if(err){ alert("Impossible de charger la lib QR. Vérifie la connexion Internet."); return; }
+  document.addEventListener('DOMContentLoaded', gen);
+});
 </script>
 </body></html>
