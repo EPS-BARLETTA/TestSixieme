@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="fr"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TestSixième — Vitesse 30 m</title><style>
+<title>TestSixième — Mode Prof Luc‑Léger</title><style>
 :root{
   --ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;
   --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;
@@ -47,27 +47,30 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
 </style></head>
 <body><div class="container">
   <div class="section-center" style="gap:10px">
-<div class="grid cards">
-  <div class="card e1" data-i="0">
-    <div class="badge">Élève 1 — <span class="who"></span></div>
-    <div class="chrono-box">
-      <div class="live" id="live0">0.00</div>
-      <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
-      <div><button class="btn" id="btn0">Start</button></div>
-    </div>
-  </div>
-  <div class="card e2" data-i="1">
-    <div class="badge">Élève 2 — <span class="who"></span></div>
-    <div class="chrono-box">
-      <div class="live" id="live1">0.00</div>
-      <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
-      <div><button class="btn" id="btn1">Start</button></div>
-    </div>
-  </div>
+<div class="tag">Mode Prof — Luc‑Léger</div>
+<div class="prof-kpis">
+  <div class="kpi"><div>Palier</div><div class="big" id="palier">1</div></div>
+  <div class="kpi"><div>Navette</div><div class="big" id="navette">1</div></div>
+  <div class="kpi"><div>VMA</div><div class="big" id="vma">8.5 km/h</div></div>
+  <div class="kpi"><div>Bip dans</div><div class="big" id="bipdans">--</div></div>
 </div>
-<div class="sticky-actions">
+<div class="progress" style="width:96%;max-width:1000px;margin:18px auto">
+  <div class="runner" id="runner" style="left:0%"></div>
+  <div class="bar" id="bar"></div>
+</div>
+<p class="badge">Au bip, atteins la ligne. Long bip = changement de palier.</p>
+<div class="row" style="justify-content:center">
+  <button id="startbtn" class="btn primary">Démarrer</button>
+  <button id="reinitbtn" class="btn">Réinitialiser</button>
   <a class="btn" href="menu.html">Menu</a>
-  <a class="btn primary" id="save">Enregistrer & Menu</a>
+</div>
+<div class="overlay" id="overlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.6);backdrop-filter:blur(2px)">
+  <div class="card" style="width:min(92vw,420px);text-align:center">
+    <h3>Entrer le code Prof</h3>
+    <p class="badge">Code à 2 chiffres</p>
+    <input id="pin" class="input" inputmode="numeric" maxlength="2" placeholder="__">
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:10px"><button id="go" class="btn primary">Entrer</button></div>
+  </div>
 </div>
 </div>
   <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
@@ -88,38 +91,26 @@ function go(h){location.href=h}
 function labelEleve(i){const d=ensure(); const e=d.eleves[i]||{}; return (e.Prenom||'')+' '+(e.Nom||'');}
 </script>
 <script>
-let running=[false,false], t0=[0,0], raf=[0,0];
-function tick(i){
-  if(!running[i]) return;
-  const t=(performance.now()-t0[i])/1000;
-  document.getElementById('live'+i).textContent=t.toFixed(2);
-  raf[i]=requestAnimationFrame(()=>tick(i));
+function requireSec(){ if(localStorage.getItem('ts6e.secRead')!=='1'){ alert("Lire la fiche Sécurité avant de continuer."); location.href='securite.html'; return false;} return true; }
+let running=false, palier=1, shuttle=1, lastTs=0, secondsLeft=0, secPerShuttle=0, raf=null;
+function vmaFromPalier(p){ return 8.5 + 0.5*p; }
+function secPerShuttleFromV(v){ const m=v*1000/3600; return 20/m; }
+function shortBeep(){ try{ const c=new (window.AudioContext||window.webkitAudioContext)(); const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=900; o.connect(g); g.connect(c.destination); g.gain.setValueAtTime(.0001,c.currentTime); g.gain.exponentialRampToValueAtTime(.35,c.currentTime+.01); g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.22); o.start(); o.stop(c.currentTime+.24);}catch{} }
+function longBeep(){ try{ const c=new (window.AudioContext||window.webkitAudioContext)(); const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=600; o.connect(g); g.connect(c.destination); g.gain.setValueAtTime(.0001,c.currentTime); g.gain.exponentialRampToValueAtTime(.5,c.currentTime+.02); g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.6); o.start(); o.stop(c.currentTime+.62);}catch{} }
+function initLL(){ palier=1; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; updateLL(); }
+function updateLL(){ const v=vmaFromPalier(palier); const prog = Math.max(0,Math.min(100,(1-secondsLeft/secPerShuttle)*100));
+  document.getElementById('palier').textContent=palier; document.getElementById('navette').textContent=shuttle; document.getElementById('vma').textContent=v.toFixed(1)+' km/h'; document.getElementById('bipdans').textContent=secondsLeft.toFixed(1)+' s';
+  document.getElementById('bar').style.width=prog+'%'; document.getElementById('runner').style.left=prog+'%';
 }
-function toggle(i,card){
-  const btn=card.querySelector('#btn'+i), input=card.querySelector('.chrono');
-  if(!running[i]){ running[i]=true; t0[i]=performance.now(); btn.textContent='Stop'; tick(i); }
-  else{ running[i]=false; cancelAnimationFrame(raf[i]); const t=(performance.now()-t0[i])/1000; input.value=t.toFixed(2); btn.textContent='Start'; }
-}
-document.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
-  const d=ensure();
-  if(!(d.eleves && d.eleves[0].Nom && d.eleves[0].Prenom && d.eleves[0].Classe && d.eleves[0].Sexe &&
-       d.eleves[1].Nom && d.eleves[1].Prenom && d.eleves[1].Classe && d.eleves[1].Sexe)){
-    go('identite.html'); return;
-  }
-  [0,1].forEach(i=>{
-    const card=document.querySelector('[data-i="'+i+'"]');
-    card.querySelector('.who').textContent=(d.eleves[i].Prenom||'')+' '+(d.eleves[i].Nom||'');
-    card.querySelector('#btn'+i).onclick=()=>toggle(i,card);
-  });
-  document.getElementById('save').onclick=()=>{
-    const v0=parseFloat(document.querySelector('[data-i="0"] .chrono').value)||0;
-    const v1=parseFloat(document.querySelector('[data-i="1"] .chrono').value)||0;
-    if(!(v0>0 && v1>0)){ alert('Renseigner les temps pour les deux élèves.'); return; }
-    let u=ensure();
-    u.tests.Vitesse[0]={t_30m_s:+v0.toFixed(2)}; u.tests.Vitesse[1]={t_30m_s:+v1.toFixed(2)};
-    saveDuo(u); go('menu.html');
-  };
+function loop(ts){ if(!running) return; const dt=(ts-lastTs)/1000; lastTs=ts; secondsLeft-=dt; if(secondsLeft<=0){ const navettes=Math.max(1,Math.round(60/secPerShuttle)); if(shuttle>=navettes){ palier++; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; longBeep(); } else { shuttle++; secondsLeft=secPerShuttle; shortBeep(); } updateLL(); } updateLL(); raf=requestAnimationFrame(loop); }
+function toggleRun(){ if(!running){ running=true; lastTs=performance.now(); document.getElementById('startbtn').textContent='Pause'; raf=requestAnimationFrame(loop);} else { running=false; document.getElementById('startbtn').textContent='Démarrer'; } }
+function reinitLL(){ running=false; palier=1; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; updateLL(); document.getElementById('startbtn').textContent='Démarrer'; }
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(!requireSec()) return;
+  const overlay=document.getElementById('overlay'); const input=document.getElementById('pin'); const go=document.getElementById('go');
+  go.onclick=()=>{ if(input.value==='57'){ overlay.style.display='none'; initLL(); } else alert('Code incorrect'); };
+  document.getElementById('startbtn').onclick=toggleRun;
+  document.getElementById('reinitbtn').onclick=reinitLL;
 });
 </script>
 </body></html>

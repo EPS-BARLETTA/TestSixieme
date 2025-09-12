@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="fr"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TestSixième — Vitesse 30 m</title><style>
+<title>TestSixième — Accueil</title><style>
 :root{
   --ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;
   --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;
@@ -47,27 +47,10 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
 </style></head>
 <body><div class="container">
   <div class="section-center" style="gap:10px">
-<div class="grid cards">
-  <div class="card e1" data-i="0">
-    <div class="badge">Élève 1 — <span class="who"></span></div>
-    <div class="chrono-box">
-      <div class="live" id="live0">0.00</div>
-      <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
-      <div><button class="btn" id="btn0">Start</button></div>
-    </div>
-  </div>
-  <div class="card e2" data-i="1">
-    <div class="badge">Élève 2 — <span class="who"></span></div>
-    <div class="chrono-box">
-      <div class="live" id="live1">0.00</div>
-      <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
-      <div><button class="btn" id="btn1">Start</button></div>
-    </div>
-  </div>
-</div>
-<div class="sticky-actions">
-  <a class="btn" href="menu.html">Menu</a>
-  <a class="btn primary" id="save">Enregistrer & Menu</a>
+<h1>TestSixième</h1>
+<a class="btn primary" style="font-size:24px;padding:20px 28px" href="securite.html">Démarrer</a>
+<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+  <a class="btn help" href="aide.html">Aide</a>
 </div>
 </div>
   <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
@@ -87,39 +70,5 @@ function requireSec(){ if(!secRead()){ alert("Merci de lire la fiche Sécurité 
 function go(h){location.href=h}
 function labelEleve(i){const d=ensure(); const e=d.eleves[i]||{}; return (e.Prenom||'')+' '+(e.Nom||'');}
 </script>
-<script>
-let running=[false,false], t0=[0,0], raf=[0,0];
-function tick(i){
-  if(!running[i]) return;
-  const t=(performance.now()-t0[i])/1000;
-  document.getElementById('live'+i).textContent=t.toFixed(2);
-  raf[i]=requestAnimationFrame(()=>tick(i));
-}
-function toggle(i,card){
-  const btn=card.querySelector('#btn'+i), input=card.querySelector('.chrono');
-  if(!running[i]){ running[i]=true; t0[i]=performance.now(); btn.textContent='Stop'; tick(i); }
-  else{ running[i]=false; cancelAnimationFrame(raf[i]); const t=(performance.now()-t0[i])/1000; input.value=t.toFixed(2); btn.textContent='Start'; }
-}
-document.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
-  const d=ensure();
-  if(!(d.eleves && d.eleves[0].Nom && d.eleves[0].Prenom && d.eleves[0].Classe && d.eleves[0].Sexe &&
-       d.eleves[1].Nom && d.eleves[1].Prenom && d.eleves[1].Classe && d.eleves[1].Sexe)){
-    go('identite.html'); return;
-  }
-  [0,1].forEach(i=>{
-    const card=document.querySelector('[data-i="'+i+'"]');
-    card.querySelector('.who').textContent=(d.eleves[i].Prenom||'')+' '+(d.eleves[i].Nom||'');
-    card.querySelector('#btn'+i).onclick=()=>toggle(i,card);
-  });
-  document.getElementById('save').onclick=()=>{
-    const v0=parseFloat(document.querySelector('[data-i="0"] .chrono').value)||0;
-    const v1=parseFloat(document.querySelector('[data-i="1"] .chrono').value)||0;
-    if(!(v0>0 && v1>0)){ alert('Renseigner les temps pour les deux élèves.'); return; }
-    let u=ensure();
-    u.tests.Vitesse[0]={t_30m_s:+v0.toFixed(2)}; u.tests.Vitesse[1]={t_30m_s:+v1.toFixed(2)};
-    saveDuo(u); go('menu.html');
-  };
-});
-</script>
+<script></script>
 </body></html>

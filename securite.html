@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="fr"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TestSixième — Vitesse 30 m</title><style>
+<title>TestSixième — Sécurité</title><style>
 :root{
   --ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;
   --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;
@@ -47,27 +47,60 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
 </style></head>
 <body><div class="container">
   <div class="section-center" style="gap:10px">
-<div class="grid cards">
-  <div class="card e1" data-i="0">
-    <div class="badge">Élève 1 — <span class="who"></span></div>
-    <div class="chrono-box">
-      <div class="live" id="live0">0.00</div>
-      <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
-      <div><button class="btn" id="btn0">Start</button></div>
-    </div>
+<h1>Fiche Sécurité</h1>
+<div class="grid" style="max-width:980px">
+  <div class="card" style="background:var(--calm1)">
+    <h3>Conseils généraux</h3>
+    <ul>
+      <li>Échauffement progressif, hydratation, chaussures adaptées.</li>
+      <li>Zones dégagées, surface non glissante.</li>
+      <li>Arrêt si douleur, malaise, gêne respiratoire.</li>
+    </ul>
   </div>
-  <div class="card e2" data-i="1">
-    <div class="badge">Élève 2 — <span class="who"></span></div>
-    <div class="chrono-box">
-      <div class="live" id="live1">0.00</div>
-      <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
-      <div><button class="btn" id="btn1">Start</button></div>
-    </div>
+  <div class="card" style="background:var(--calm2)">
+    <h3>Endurance (Luc‑Léger)</h3>
+    <ul>
+      <li>Bande de 20 m clairement matérialisée.</li>
+      <li>Respect des bips, dépassements prudents.</li>
+      <li>Arrêt si fatigue anormale ou retard répété.</li>
+    </ul>
+  </div>
+  <div class="card" style="background:var(--calm3)">
+    <h3>Saut sans élan</h3>
+    <ul>
+      <li>Pieds joints, réception contrôlée, un élève à la fois.</li>
+      <li>Mesure au talon le plus proche, zone libre.</li>
+      <li>Pas de poussée/tirage, pas d’objets au sol.</li>
+    </ul>
+  </div>
+  <div class="card" style="background:var(--calm4)">
+    <h3>Vitesse — 30 m</h3>
+    <ul>
+      <li>Départ arrêté, voie d’élan et de freinage dégagées.</li>
+      <li>Chronométrage par un observateur, circulation claire.</li>
+      <li>Éviter les croisements et entrées tardives.</li>
+    </ul>
   </div>
 </div>
+
+<div class="grid" style="margin-top:8px;max-width:980px">
+  <div class="card" style="background:var(--calm2)">
+    <h3>Mode d’emploi — Endurance</h3>
+    <p>Renseigner le <strong>palier</strong> atteint. La <strong>VMA</strong> est calculée (palier 1 = 8,5 km/h, +0,5 par palier).</p>
+  </div>
+  <div class="card" style="background:var(--calm3)">
+    <h3>Mode d’emploi — Saut</h3>
+    <p>Saisir au moins <strong>2 essais</strong> (cm). Le <strong>meilleur</strong> est retenu automatiquement.</p>
+  </div>
+  <div class="card" style="background:var(--calm4)">
+    <h3>Mode d’emploi — Vitesse</h3>
+    <p>Utiliser le <strong>chrono</strong> intégré (Start/Stop). Le temps (s) est éditable si besoin.</p>
+  </div>
+</div>
+
 <div class="sticky-actions">
-  <a class="btn" href="menu.html">Menu</a>
-  <a class="btn primary" id="save">Enregistrer & Menu</a>
+  <a class="btn" href="index.html">Accueil</a>
+  <a class="btn primary" id="ack">J’ai lu — Démarrer</a>
 </div>
 </div>
   <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
@@ -88,38 +121,9 @@ function go(h){location.href=h}
 function labelEleve(i){const d=ensure(); const e=d.eleves[i]||{}; return (e.Prenom||'')+' '+(e.Nom||'');}
 </script>
 <script>
-let running=[false,false], t0=[0,0], raf=[0,0];
-function tick(i){
-  if(!running[i]) return;
-  const t=(performance.now()-t0[i])/1000;
-  document.getElementById('live'+i).textContent=t.toFixed(2);
-  raf[i]=requestAnimationFrame(()=>tick(i));
-}
-function toggle(i,card){
-  const btn=card.querySelector('#btn'+i), input=card.querySelector('.chrono');
-  if(!running[i]){ running[i]=true; t0[i]=performance.now(); btn.textContent='Stop'; tick(i); }
-  else{ running[i]=false; cancelAnimationFrame(raf[i]); const t=(performance.now()-t0[i])/1000; input.value=t.toFixed(2); btn.textContent='Start'; }
-}
-document.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
-  const d=ensure();
-  if(!(d.eleves && d.eleves[0].Nom && d.eleves[0].Prenom && d.eleves[0].Classe && d.eleves[0].Sexe &&
-       d.eleves[1].Nom && d.eleves[1].Prenom && d.eleves[1].Classe && d.eleves[1].Sexe)){
-    go('identite.html'); return;
-  }
-  [0,1].forEach(i=>{
-    const card=document.querySelector('[data-i="'+i+'"]');
-    card.querySelector('.who').textContent=(d.eleves[i].Prenom||'')+' '+(d.eleves[i].Nom||'');
-    card.querySelector('#btn'+i).onclick=()=>toggle(i,card);
-  });
-  document.getElementById('save').onclick=()=>{
-    const v0=parseFloat(document.querySelector('[data-i="0"] .chrono').value)||0;
-    const v1=parseFloat(document.querySelector('[data-i="1"] .chrono').value)||0;
-    if(!(v0>0 && v1>0)){ alert('Renseigner les temps pour les deux élèves.'); return; }
-    let u=ensure();
-    u.tests.Vitesse[0]={t_30m_s:+v0.toFixed(2)}; u.tests.Vitesse[1]={t_30m_s:+v1.toFixed(2)};
-    saveDuo(u); go('menu.html');
-  };
-});
+document.getElementById('ack').onclick=()=>{
+  localStorage.setItem('ts6e.secRead','1');
+  go('identite.html');
+};
 </script>
 </body></html>
