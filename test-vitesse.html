@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Vitesse — 30 m</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="app.js"></script>
+</head>
+<body onload="mountVitesseForm()">
+  <div class="header">
+    <div class="logo">⚡ Vitesse — 30 m</div>
+    <div class="nav">
+      <button class="button btn-ghost" onclick="go('menu-tests.html')">Menu tests</button>
+    </div>
+  </div>
+  <div class="wrap grid">
+    <form class="card grid" onsubmit="submitVitesse(event)">
+      <div class="row row-2">
+        <fieldset>
+          <legend>Élève 1</legend>
+          <div class="grid">
+            <div class="timer" id="timer0">0.0 s</div>
+            <div class="flex">
+              <button class="button btn-warn" type="button" id="s0" onclick="startTimer('#timer0','#s0','#p0')">Start</button>
+              <button class="button btn-danger" type="button" id="p0" disabled onclick="stopTimer('#timer0','[name=t0]','#s0','#p0')">Stop</button>
+            </div>
+            <label>Temps (s, 0,1)
+              <input name="t0" inputmode="decimal" step="0.1" placeholder="ex. 5,2" required />
+            </label>
+            <div>Vitesse estimée : <strong id="kmh0">—</strong></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Élève 2</legend>
+          <div class="grid">
+            <div class="timer" id="timer1">0.0 s</div>
+            <div class="flex">
+              <button class="button btn-warn" type="button" id="s1" onclick="startTimer('#timer1','#s1','#p1')">Start</button>
+              <button class="button btn-danger" type="button" id="p1" disabled onclick="stopTimer('#timer1','[name=t1]','#s1','#p1')">Stop</button>
+            </div>
+            <label>Temps (s, 0,1)
+              <input name="t1" inputmode="decimal" step="0.1" placeholder="ex. 5,4" required />
+            </label>
+            <div>Vitesse estimée : <strong id="kmh1">—</strong></div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="actions">
+        <button class="button btn-primary" type="submit">Enregistrer</button>
+        <button class="button btn-ghost" type="button" onclick="go('menu-tests.html')">Retour</button>
+      </div>
+      <p class="help">Départ debout, sans signal. Chrono <span class="kbd">Start</span> au décollage du pied arrière, <span class="kbd">Stop</span> quand la ligne des épaules passe l’arrivée. Temps au 0,1 s.</p>
+    </form>
+  </div>
+</body>
+</html>

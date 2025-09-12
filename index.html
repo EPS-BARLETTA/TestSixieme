@@ -1,74 +1,37 @@
-<!DOCTYPE html><html lang="fr"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TestSixième — Accueil</title><style>
-:root{
-  --ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;
-  --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;
-  --orange:#f59e0b;--violet:#7c3aed;
-  --e1bg:#eff6ff; --e2bg:#ecfdf5;
-}
-*{box-sizing:border-box} html,body{height:100%}
-body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);
-  background:linear-gradient(180deg,#f8fafc,#eef2ff); display:flex;flex-direction:column;min-height:100vh}
-.container{max-width:980px;margin:0 auto;padding:24px;display:flex;flex-direction:column;min-height:100vh}
-.section-center{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center}
-.footer{padding:24px 0;color:#94a3b8;text-align:center;font-size:12px}
-h1{font-size:50px;margin:0 0 8px}
-.btn{padding:16px 20px;border-radius:16px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;text-decoration:none;color:#0b1324;display:inline-block}
-.btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)}
-.btn.help{background:linear-gradient(135deg,var(--orange),#fb923c);color:#fff;border:none}
-.grid{display:grid;gap:16px}
-.grid.cards{grid-template-columns:repeat(2, minmax(300px, 1fr)); align-items:stretch}
-.card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 10px 28px rgba(10,18,40,.08)}
-.card.e1{background:var(--e1bg)} .card.e2{background:var(--e2bg)}
-label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
-.input{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:#fff;font-size:16px}
-.row{display:flex;gap:14px;flex-wrap:wrap}
-.col{flex:1;min-width:220px}
-.sticky-actions{position:sticky;bottom:0;display:flex;gap:12px;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);padding:12px 0;margin-top:18px}
-.tag{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,#0ea5e9,#7c3aed);color:#fff;font-weight:800}
-.badge{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
-.kpi{flex:1;min-width:240px;background:rgba(255,255,255,.9);border:1px solid var(--border);padding:18px;border-radius:18px;box-shadow:0 8px 24px rgba(10,18,40,.08)}
-.kpi .big{font-size:42px;font-weight:800}
-.progress{height:34px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.06);position:relative}
-.progress>div.bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));width:0}
-.runner{position:absolute;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#fb923c);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
-.prof-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:100%;max-width:900px}
-.prof-kpis .kpi .big{font-size:56px}
-.chrono-box{display:flex;align-items:center;justify-content:space-between;gap:18px}
-.live{font-variant-numeric:tabular-nums;font-size:52px;font-weight:800;letter-spacing:.5px;padding:10px 14px;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));min-width:180px;text-align:center}
-.card.e2 .live{background:linear-gradient(135deg,#16a34a,#22c55e)}
-.card .input.chrono{font-size:20px}
-.card .btn{min-width:110px}
-.card{min-height:220px}
-.big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
-.big-btn{display:block;min-width:340px;text-align:center;padding:20px 24px;border-radius:18px;color:#fff;font-weight:800;font-size:20px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
-.big-btn.blue{background:linear-gradient(135deg,#2563eb,#7c3aed)}
-.big-btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
-.big-btn.orange{background:linear-gradient(135deg,#f59e0b,#fb923c)}
-</style></head>
-<body><div class="container">
-  <div class="section-center" style="gap:10px">
-<h1>TestSixième</h1>
-<a class="btn primary" style="font-size:24px;padding:20px 28px" href="securite.html">Démarrer</a>
-<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
-  <a class="btn help" href="aide.html">Aide</a>
-</div>
-</div>
-  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
-</div>
-<script>
-const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
-function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
-  if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
-  return JSON.parse(localStorage.getItem(KEY));
-}
-function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
-function identOK(i){const e=ensure().eleves[i];return e&&e.Nom&&e.Prenom&&e.Classe&&e.Sexe}
-function bothIdent(){return identOK(0)&&identOK(1)}
-function secRead(){return localStorage.getItem(KEY_SEC)==='1'}
-function requireSec(){ if(!secRead()){ alert("Merci de lire la fiche Sécurité avant de continuer."); location.href='securite.html'; return false;} return true; }
-function go(h){location.href=h}
-</script>
-<script></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TestSixième — Accueil</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="app.js"></script>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">🧪 TestSixième</div>
+    <div class="nav">
+      <button class="button btn-ghost" onclick="go('securite.html')">Fiche sécurité</button>
+      <button class="button btn-primary" onclick="go('saisie.html')">Saisir les élèves</button>
+      <button class="button btn-ghost" onclick="go('prof-luc-leger.html')">Mode Prof – Luc Léger</button>
+    </div>
+  </div>
+  <div class="wrap grid">
+    <div class="card">
+      <h2 class="center">Évaluation des aptitudes physiques – 6ᵉ</h2>
+      <p>Cette application permet de renseigner les 3 tests officiels : <strong>Endurance (Luc Léger)</strong>, <strong>Saut en longueur sans élan</strong> et <strong>Vitesse 30m</strong>. Les résultats de <em>deux élèves</em> sont regroupés dans un <strong>QR code JSON</strong> compatible <span class="kbd">ScanProf</span>.</p>
+      <div class="notice">
+        <div><span class="badge">Important</span> Les données sont <strong>enregistrées automatiquement</strong> (localStorage) — pas de perte si l’iPad s’éteint.</div>
+      </div>
+      <div class="actions" style="margin-top:12px">
+        <button class="button btn-primary" onclick="go('saisie.html')">➡️ Commencer</button>
+        <button class="button btn-ghost" onclick="go('securite.html')">🛟 Fiche de sécurité</button>
+        <button class="button btn-ghost" onclick="go('historique.html')">📚 Historique de la classe</button>
+      </div>
+    </div>
+  </div>
+  <footer class="center">
+    <span class="small">Scan & stats compatibles <span class="kbd">ScanProf</span> • 2025</span>
+  </footer>
+</body>
+</html>

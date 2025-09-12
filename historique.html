@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Historique de la classe</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="app.js"></script>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">📚 Historique</div>
+    <div class="nav">
+      <button class="button btn-ghost" onclick="go('index.html')">Accueil</button>
+    </div>
+  </div>
+  <div class="wrap grid">
+    <div class="card">
+      <h3>Paires déjà scannées</h3>
+      <table class="table" id="tab"></table>
+      <div class="actions">
+        <button class="button btn-danger" onclick="if(confirm('Effacer uniquement l\\'historique ?')){ const s=loadState(); s.historique=[]; saveState(s); location.reload(); }">Vider l'historique</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const s = loadState();
+    const t = document.getElementById('tab');
+    t.innerHTML = '<tr><th>Date</th><th>Élève 1</th><th>Élève 2</th></tr>' + (s.historique.map(h=>{
+      const d = new Date(h.timestamp);
+      const e0 = h.eleves[0], e1 = h.eleves[1];
+      function fmt(e){ return `${e.nom} ${e.prenom} • ${e.classe} • VMA ${e.vma??'—'} • Vitesse ${e.vitesse_kmh??'—'} • Saut ${e.saut_cm??'—'}`; }
+      return `<tr><td>${d.toLocaleString()}</td><td>${fmt(e0)}</td><td>${fmt(e1)}</td></tr>`;
+    }).join('') || '<tr><td colspan="3">—</td></tr>');
+  </script>
+</body>
+</html>

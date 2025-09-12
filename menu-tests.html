@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tests — Menu</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="app.js"></script>
+</head>
+<body onload="guardMenuAccess()">
+  <div class="header">
+    <div class="logo">🧪 Tests</div>
+    <div class="nav">
+      <button class="button btn-ghost" onclick="go('index.html')">Accueil</button>
+      <button class="button btn-ghost" onclick="go('saisie.html')">Identités</button>
+      <button class="button btn-ghost" onclick="go('qr.html')">QR</button>
+    </div>
+  </div>
+  <div class="wrap grid grid-2">
+    <div class="card">
+      <h3>Endurance — Luc Léger</h3>
+      <p>Saisir le <strong>dernier palier entendu</strong> (palier atteint sur la bande sonore).</p>
+      <div class="actions"><button class="button btn-primary" onclick="go('test-endurance.html')">Ouvrir</button></div>
+    </div>
+    <div class="card">
+      <h3>Saut en longueur (sans élan)</h3>
+      <p>Saisir la <strong>meilleure performance</strong> en <strong>cm</strong> (mesurée au 1 cm).</p>
+      <div class="actions"><button class="button btn-primary" onclick="go('test-saut.html')">Ouvrir</button></div>
+    </div>
+    <div class="card">
+      <h3>Vitesse — 30 mètres</h3>
+      <p>Temps au <strong>0,1 s</strong> puis conversion automatique en km/h.</p>
+      <div class="actions"><button class="button btn-primary" onclick="go('test-vitesse.html')">Ouvrir</button></div>
+    </div>
+    <div class="card">
+      <h3>Générer le QR</h3>
+      <p>Disponible une fois les 3 tests enregistrés.</p>
+      <div class="actions">
+        <button class="button btn-ok" onclick="go('qr.html')">Générer / Scanner</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

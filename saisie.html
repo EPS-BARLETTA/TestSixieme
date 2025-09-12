@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saisie des élèves</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="app.js"></script>
+</head>
+<body onload="mountIdentiteForm()">
+  <div class="header">
+    <div class="logo">👥 Saisie des élèves</div>
+    <div class="nav">
+      <button class="button btn-ghost" onclick="go('index.html')">Accueil</button>
+    </div>
+  </div>
+  <div class="wrap grid grid-2">
+    <form class="card grid" onsubmit="handleIdentiteSubmit(event)">
+      <fieldset>
+        <legend>Élève 1</legend>
+        <label>Nom<input name="nom0" autocomplete="off" required></label>
+        <label>Prénom<input name="prenom0" autocomplete="off" required></label>
+        <label>Classe<input name="classe0" autocomplete="off" required></label>
+        <label>Sexe
+          <select name="sexe0" required>
+            <option value="">—</option>
+            <option value="F">F</option>
+            <option value="M">M</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </label>
+      </fieldset>
+      <fieldset>
+        <legend>Élève 2</legend>
+        <label>Nom<input name="nom1" autocomplete="off" required></label>
+        <label>Prénom<input name="prenom1" autocomplete="off" required></label>
+        <label>Classe<input name="classe1" autocomplete="off" required></label>
+        <label>Sexe
+          <select name="sexe1" required>
+            <option value="">—</option>
+            <option value="F">F</option>
+            <option value="M">M</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </label>
+      </fieldset>
+      <div class="actions">
+        <button class="button btn-primary" type="submit">Enregistrer & continuer</button>
+        <button class="button btn-danger" type="button" onclick="clearAll()">Réinitialiser</button>
+      </div>
+      <p class="help">Vous ne pourrez pas revenir au menu des tests tant que les deux fiches identité ne sont pas complètes.</p>
+    </form>
+    <div class="card">
+      <h3>Prochaines étapes</h3>
+      <ol>
+        <li>Renseigner les identités (2 élèves).</li>
+        <li>Passer les 3 tests (ordre libre).</li>
+        <li>Générer le QR (JSON) pour ScanProf.</li>
+      </ol>
+      <div class="actions">
+        <button class="button btn-ghost" onclick="go('menu-tests.html')">Menu des tests</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
