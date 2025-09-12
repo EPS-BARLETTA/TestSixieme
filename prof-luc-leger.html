@@ -4,8 +4,7 @@
 :root{
   --ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;
   --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;
-  --cyan:#06b6d4;--orange:#f59e0b;--violet:#7c3aed;--rose:#e11d48;
-  --calm1:#e6f1ff; --calm2:#e7fff6; --calm3:#fff3e6; --calm4:#f1e6ff;
+  --orange:#f59e0b;--violet:#7c3aed;
   --e1bg:#eff6ff; --e2bg:#ecfdf5;
 }
 *{box-sizing:border-box} html,body{height:100%}
@@ -19,8 +18,8 @@ h1{font-size:50px;margin:0 0 8px}
 .btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)}
 .btn.help{background:linear-gradient(135deg,var(--orange),#fb923c);color:#fff;border:none}
 .grid{display:grid;gap:16px}
-.grid.cards{grid-template-columns:repeat(2, minmax(300px, 1fr)); align-items:stretch}
-.card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 10px 28px rgba(10,18,40,.08)}
+.grid.cards{grid-template-columns:repeat(2, minmax(320px, 1fr)); align-items:stretch}
+.card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 10px 28px rgba(0,0,0,.08)}
 .card.e1{background:var(--e1bg)} .card.e2{background:var(--e2bg)}
 label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
 .input{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:#fff;font-size:16px}
@@ -31,19 +30,24 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
 .badge{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
 .kpi{flex:1;min-width:240px;background:rgba(255,255,255,.9);border:1px solid var(--border);padding:18px;border-radius:18px;box-shadow:0 8px 24px rgba(10,18,40,.08)}
 .kpi .big{font-size:42px;font-weight:800}
-.progress{height:30px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.06);position:relative}
+.progress{height:40px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.06);position:relative}
 .progress>div.bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));width:0}
-.runner{position:absolute;top:50%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#fb923c);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
+.runner{position:absolute;top:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#fb923c);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
 .prof-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:100%;max-width:900px}
 .prof-kpis .kpi .big{font-size:56px}
-.chrono-box{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.live{font-variant-numeric:tabular-nums;font-size:46px;font-weight:800;letter-spacing:.5px;padding:8px 12px;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));min-width:160px;text-align:center}
-.card.e2 .live{background:linear-gradient(135deg,var(--green),var(--green2))}
+.chrono-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:900px){ .chrono-grid{grid-template-columns:1fr 1fr;} }
+.live{font-variant-numeric:tabular-nums;font-size:54px;font-weight:800;letter-spacing:.5px;padding:10px 14px;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));min-width:190px;text-align:center}
+.card.e2 .live{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.card .input.chrono{font-size:20px}
+.card .btn{min-width:120px}
+.card{min-height:240px}
 .big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
 .big-btn{display:block;min-width:340px;text-align:center;padding:20px 24px;border-radius:18px;color:#fff;font-weight:800;font-size:20px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
-.big-btn.blue{background:linear-gradient(135deg,var(--blue),var(--violet))}
-.big-btn.green{background:linear-gradient(135deg,var(--green),var(--green2))}
-.big-btn.orange{background:linear-gradient(135deg,var(--orange),#fb923c)}
+.big-btn.blue{background:linear-gradient(135deg,#2563eb,#7c3aed)}
+.big-btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.big-btn.orange{background:linear-gradient(135deg,#f59e0b,#fb923c)}
+.seclines p{margin:.3rem 0}
 </style></head>
 <body><div class="container">
   <div class="section-center" style="gap:10px">
@@ -62,6 +66,7 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
 <div class="row" style="justify-content:center">
   <button id="startbtn" class="btn primary">Démarrer</button>
   <button id="reinitbtn" class="btn">Réinitialiser</button>
+  <button id="consignes" class="btn" style="display:none">Consignes Prof</button>
   <a class="btn" href="menu.html">Menu</a>
 </div>
 <div class="overlay" id="overlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.6);backdrop-filter:blur(2px)">
@@ -72,12 +77,23 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
     <div style="display:flex;justify-content:center;gap:8px;margin-top:10px"><button id="go" class="btn primary">Entrer</button></div>
   </div>
 </div>
+<div class="overlay" id="consignesModal" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.6);backdrop-filter:blur(2px)">
+  <div class="card" style="width:min(92vw,640px)">
+    <h3>Consignes Prof — Luc‑Léger</h3>
+    <div class="seclines">
+      <p>Le test démarre au <strong>palier 1 (8,5 km/h)</strong> — confirmé.</p>
+      <p>Distance: 20 m entre lignes. Au bip, les élèves atteignent la ligne; bip long = changement de palier.</p>
+      <p>Vérifier l’aire de course (20 m + zone dégagement). 2 retards consécutifs = arrêt.</p>
+      <p>Communiquer clairement les paliers et encourager la régularité.</p>
+    </div>
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:10px"><button id="closeCons" class="btn">Fermer</button></div>
+  </div>
+</div>
 </div>
   <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
 </div>
 <script>
 const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
-function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
 function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
   if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
   return JSON.parse(localStorage.getItem(KEY));
@@ -88,12 +104,11 @@ function bothIdent(){return identOK(0)&&identOK(1)}
 function secRead(){return localStorage.getItem(KEY_SEC)==='1'}
 function requireSec(){ if(!secRead()){ alert("Merci de lire la fiche Sécurité avant de continuer."); location.href='securite.html'; return false;} return true; }
 function go(h){location.href=h}
-function labelEleve(i){const d=ensure(); const e=d.eleves[i]||{}; return (e.Prenom||'')+' '+(e.Nom||'');}
 </script>
 <script>
 function requireSec(){ if(localStorage.getItem('ts6e.secRead')!=='1'){ alert("Lire la fiche Sécurité avant de continuer."); location.href='securite.html'; return false;} return true; }
 let running=false, palier=1, shuttle=1, lastTs=0, secondsLeft=0, secPerShuttle=0, raf=null;
-function vmaFromPalier(p){ return 8.5 + 0.5*p; }
+function vmaFromPalier(p){ return 8.5 + 0.5*p; } // palier 1 = 8.5 km/h confirmé
 function secPerShuttleFromV(v){ const m=v*1000/3600; return 20/m; }
 function shortBeep(){ try{ const c=new (window.AudioContext||window.webkitAudioContext)(); const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=900; o.connect(g); g.connect(c.destination); g.gain.setValueAtTime(.0001,c.currentTime); g.gain.exponentialRampToValueAtTime(.35,c.currentTime+.01); g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.22); o.start(); o.stop(c.currentTime+.24);}catch{} }
 function longBeep(){ try{ const c=new (window.AudioContext||window.webkitAudioContext)(); const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=600; o.connect(g); g.connect(c.destination); g.gain.setValueAtTime(.0001,c.currentTime); g.gain.exponentialRampToValueAtTime(.5,c.currentTime+.02); g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.6); o.start(); o.stop(c.currentTime+.62);}catch{} }
@@ -107,10 +122,12 @@ function toggleRun(){ if(!running){ running=true; lastTs=performance.now(); docu
 function reinitLL(){ running=false; palier=1; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; updateLL(); document.getElementById('startbtn').textContent='Démarrer'; }
 document.addEventListener('DOMContentLoaded', ()=>{
   if(!requireSec()) return;
-  const overlay=document.getElementById('overlay'); const input=document.getElementById('pin'); const go=document.getElementById('go');
-  go.onclick=()=>{ if(input.value==='57'){ overlay.style.display='none'; initLL(); } else alert('Code incorrect'); };
+  const overlay=document.getElementById('overlay'); const input=document.getElementById('pin'); const go=document.getElementById('go'); const cons=document.getElementById('consignes');
+  go.onclick=()=>{ if(input.value==='57'){ overlay.style.display='none'; initLL(); cons.style.display='inline-block'; } else alert('Code incorrect'); };
   document.getElementById('startbtn').onclick=toggleRun;
   document.getElementById('reinitbtn').onclick=reinitLL;
+  cons.onclick=()=>{ document.getElementById('consignesModal').style.display='flex'; };
+  document.getElementById('closeCons').onclick=()=>{ document.getElementById('consignesModal').style.display='none'; };
 });
 </script>
 </body></html>
