@@ -20,7 +20,7 @@ function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}cat
   if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
   return JSON.parse(localStorage.getItem(KEY));
 }
-function vmaFrom(i){const d=ensure(); const t=d.tests.Endurance[i]; return t && t.vma_kmh!=null ? t.vma_kmh : (t&&t.palier!=null? +(8.5+0.5*t.palier).toFixed(1):0);}
+function vmaFrom(i){const d=ensure(); const t=d.tests.Endurance[i]; return t && t.vma_kmh!=null ? t.vma_kmh : (t&&t.palier!=null? +(8.0+0.5*t.palier).toFixed(1):0);}
 function bestLongueur(i){const d=ensure(); const t=d.tests.Saut[i]; return t && t.best_cm!=null ? t.best_cm : 0;}
 function vitesseFrom(i){const d=ensure(); const t=d.tests.Vitesse[i]; return t && t.t_30m_s!=null ? t.t_30m_s : 0;}
 function bothIdent(){const d=ensure(); return [0,1].every(i=>{const e=d.eleves[i]; return e.Nom&&e.Prenom&&e.Classe&&e.Sexe});}

@@ -12,8 +12,9 @@ body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,R
   background:linear-gradient(180deg,#f8fafc,#eef2ff); display:flex;flex-direction:column;min-height:100vh}
 .container{max-width:980px;margin:0 auto;padding:24px;display:flex;flex-direction:column;min-height:100vh}
 .section-center{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center}
-.footer{padding:24px 0;color:#94a3b8;text-align:center;font-size:12px}
+.footer{padding:24px 0;color:#64748b;text-align:center;font-size:14px}
 h1{font-size:50px;margin:0 0 8px}
+.h-test{font-size:28px;margin:0 0 8px}
 .btn{padding:16px 20px;border-radius:16px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;text-decoration:none;color:#0b1324;display:inline-block}
 .btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)}
 .btn.help{background:linear-gradient(135deg,var(--orange),#fb923c);color:#fff;border:none}
@@ -30,34 +31,36 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
 .badge{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
 .kpi{flex:1;min-width:240px;background:rgba(255,255,255,.9);border:1px solid var(--border);padding:18px;border-radius:18px;box-shadow:0 8px 24px rgba(10,18,40,.08)}
 .kpi .big{font-size:42px;font-weight:800}
-.progress{height:40px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.06);position:relative}
+.progress{height:44px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.06);position:relative}
 .progress>div.bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));width:0}
-.runner{position:absolute;top:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#fb923c);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
+.runner{position:absolute;top:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#fb923c);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
 .prof-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:100%;max-width:900px}
 .prof-kpis .kpi .big{font-size:56px}
 .chrono-grid{display:grid;grid-template-columns:1fr;gap:18px}
 @media(min-width:900px){ .chrono-grid{grid-template-columns:1fr 1fr;} }
-.live{font-variant-numeric:tabular-nums;font-size:54px;font-weight:800;letter-spacing:.5px;padding:10px 14px;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));min-width:190px;text-align:center}
+.live{font-variant-numeric:tabular-nums;font-size:58px;font-weight:800;letter-spacing:.5px;padding:10px 14px;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));min-width:190px;text-align:center}
 .card.e2 .live{background:linear-gradient(135deg,#16a34a,#22c55e)}
 .card .input.chrono{font-size:20px}
 .card .btn{min-width:120px}
-.card{min-height:240px}
+.card{min-height:260px}
 .big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
 .big-btn{display:block;min-width:340px;text-align:center;padding:20px 24px;border-radius:18px;color:#fff;font-weight:800;font-size:20px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
 .big-btn.blue{background:linear-gradient(135deg,#2563eb,#7c3aed)}
 .big-btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
 .big-btn.orange{background:linear-gradient(135deg,#f59e0b,#fb923c)}
 .seclines p{margin:.3rem 0}
+.center{display:flex;flex-direction:column;align-items:center}
 </style></head>
 <body><div class="container">
   <div class="section-center" style="gap:10px">
+<h2 class="h-test">Vitesse — 30 m</h2>
 <div class="chrono-grid">
   <div class="card e1" data-i="0">
     <div class="badge who"></div>
     <div class="row" style="align-items:center;gap:20px">
       <div class="live" id="live0">0.00</div>
       <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
-      <div><button class="btn" id="btn0">Start</button></div>
+      <div><button class="btn primary" id="btn0">Start</button></div>
     </div>
   </div>
   <div class="card e2" data-i="1">
@@ -65,7 +68,7 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
     <div class="row" style="align-items:center;gap:20px">
       <div class="live" id="live1">0.00</div>
       <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
-      <div><button class="btn" id="btn1">Start</button></div>
+      <div><button class="btn primary" id="btn1">Start</button></div>
     </div>
   </div>
 </div>
