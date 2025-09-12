@@ -1,0 +1,31 @@
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR</title><style>
+body{margin:0;font-family:sans-serif;background:#f8fafc;display:flex;flex-direction:column;min-height:100vh}
+h1{text-align:center;margin-top:10vh;font-size:3em;color:#111}
+.footer{margin-top:auto;text-align:center;padding:20px;color:#888;font-size:14px}
+.center{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:20px}
+.btn{padding:14px 24px;border-radius:8px;border:none;font-size:18px;cursor:pointer}
+.primary{background:#2563eb;color:#fff}
+.grid{display:grid;gap:20px;grid-template-columns:1fr 1fr;padding:20px}
+.card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+label{display:block;margin-top:10px}
+input,select{padding:8px;width:100%;margin-top:4px}
+.big-btns{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:40px}
+.big-btn{padding:20px 40px;font-size:20px;border-radius:10px;color:#fff;text-align:center;width:60%}
+.big-btn.blue{background:#2563eb}
+.big-btn.green{background:#16a34a}
+.big-btn.orange{background:#f59e0b}
+</style></head><body><h1>QR Code</h1>
+<div id="qrcode" class="center"></div><pre id="json"></pre>
+<div class="center"><button id="gen" class="btn primary">Régénérer</button><a href="menu.html"><button class="btn">Retour</button></a></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const KEY='ts6e.duo';
+function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
+function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
+function ensure(){let d=getDuo();if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}};saveDuo(d)}return getDuo()}
+function buildQr(){let d=ensure();let pack=d.eleves.map((e,i)=>{let node={app:'Aptitudes6e',version:1,eleve:e,tests:{}};if(d.tests.Endurance[i])node.tests.Endurance=d.tests.Endurance[i];if(d.tests.Saut[i])node.tests.Saut=d.tests.Saut[i];if(d.tests.Vitesse[i])node.tests.Vitesse=d.tests.Vitesse[i];return node});return {pack,meta:{date:new Date().toISOString().slice(0,10),source:'TestSixieme'}}}
+
+function gen(){let payload=buildQr();document.getElementById('json').textContent=JSON.stringify(payload,null,2);document.getElementById('qrcode').innerHTML='';new QRCode(document.getElementById('qrcode'),{text:JSON.stringify(payload),width:256,height:256})}
+document.getElementById('gen').onclick=gen;gen();
+</script></body></html>

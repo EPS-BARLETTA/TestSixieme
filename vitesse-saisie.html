@@ -1,0 +1,32 @@
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vitesse</title><style>
+body{margin:0;font-family:sans-serif;background:#f8fafc;display:flex;flex-direction:column;min-height:100vh}
+h1{text-align:center;margin-top:10vh;font-size:3em;color:#111}
+.footer{margin-top:auto;text-align:center;padding:20px;color:#888;font-size:14px}
+.center{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:20px}
+.btn{padding:14px 24px;border-radius:8px;border:none;font-size:18px;cursor:pointer}
+.primary{background:#2563eb;color:#fff}
+.grid{display:grid;gap:20px;grid-template-columns:1fr 1fr;padding:20px}
+.card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+label{display:block;margin-top:10px}
+input,select{padding:8px;width:100%;margin-top:4px}
+.big-btns{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:40px}
+.big-btn{padding:20px 40px;font-size:20px;border-radius:10px;color:#fff;text-align:center;width:60%}
+.big-btn.blue{background:#2563eb}
+.big-btn.green{background:#16a34a}
+.big-btn.orange{background:#f59e0b}
+</style></head><body><h1>Vitesse 30m</h1>
+<div class="grid">
+  <div class="card" data-i="0"><h3>Élève 1</h3><label>Temps(s)<input class="chrono"></label></div>
+  <div class="card" data-i="1"><h3>Élève 2</h3><label>Temps(s)<input class="chrono"></label></div>
+</div>
+<div class="center"><button id="save" class="btn primary">Enregistrer</button><a href="menu.html"><button class="btn">Retour</button></a></div>
+<script>
+const KEY='ts6e.duo';
+function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
+function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
+function ensure(){let d=getDuo();if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}};saveDuo(d)}return getDuo()}
+function buildQr(){let d=ensure();let pack=d.eleves.map((e,i)=>{let node={app:'Aptitudes6e',version:1,eleve:e,tests:{}};if(d.tests.Endurance[i])node.tests.Endurance=d.tests.Endurance[i];if(d.tests.Saut[i])node.tests.Saut=d.tests.Saut[i];if(d.tests.Vitesse[i])node.tests.Vitesse=d.tests.Vitesse[i];return node});return {pack,meta:{date:new Date().toISOString().slice(0,10),source:'TestSixieme'}}}
+
+document.getElementById('save').onclick=()=>{let d=ensure();[0,1].forEach(i=>{let v=parseFloat(document.querySelector('[data-i="'+i+'"] .chrono').value)||0;if(v>0)d.tests.Vitesse[i]={type:'Sprint30m',t_30m_s:v}});saveDuo(d);alert('Vitesse enregistrée')};
+</script></body></html>
