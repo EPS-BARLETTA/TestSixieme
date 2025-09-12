@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TestSixième — Saisie Vitesse</title>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/vitesse.js"></script>
+</head><body>
+<div class="wrapper"><div class="container">
+  <div class="header">
+    <div class="brand"><div class="logo">30</div><div class="title"><strong>Vitesse — 30 m</strong><small>Saisie (2 élèves)</small></div></div>
+    <div class="nav"><a class="btn" href="menu.html">Menu</a></div>
+  </div>
+
+  <div class="grid cards">
+    <div class="card" data-eleve="0">
+      <h3><span class="nomlib">Élève 1</span></h3>
+      <div class="row" style="align-items:center">
+        <div class="col">
+          <label>Temps (s)</label>
+          <input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/>
+          <p class="notice">Remplissage auto après Stop. Modifiable (valeur du juge).</p>
+        </div>
+        <div><button class="btn green startstop" style="min-width:120px">Start</button></div>
+      </div>
+    </div>
+
+    <div class="card" data-eleve="1">
+      <h3><span class="nomlib">Élève 2</span></h3>
+      <div class="row" style="align-items:center">
+        <div class="col">
+          <label>Temps (s)</label>
+          <input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/>
+          <p class="notice">Remplissage auto après Stop. Modifiable (valeur du juge).</p>
+        </div>
+        <div><button class="btn green startstop" style="min-width:120px">Start</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-actions">
+    <a class="btn" href="menu.html">Retour</a>
+    <button id="save-vitesse" class="btn primary">Enregistrer</button>
+  </div>
+
+</div><div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div></div>
+</body></html>

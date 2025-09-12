@@ -1,17 +1,24 @@
-const STORAGE_KEY_CURRENT = 'tests6e.current';
-const STORAGE_KEY_RESULTS = 'tests6e.results';
+// Duo storage model
+const KEY_DUO = 'ts6e.duo';
 
-function getCurrentIdentity(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT)||'null'); } catch { return null; } }
-function setCurrentIdentity(ident){ localStorage.setItem(STORAGE_KEY_CURRENT, JSON.stringify(ident)); }
-function keyFromIdent(ident){ return [ident.Nom||'', ident.Prenom||'', ident.Classe||'', ident.Sexe||''].join('|'); }
-function getAllResults(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY_RESULTS)||'{}'); } catch { return {}; } }
-function saveResults(ident, partial){
-  const k = keyFromIdent(ident); if(!k) return;
-  const all = getAllResults();
-  const prev = all[k] || {eleve: ident, tests:{}};
-  all[k] = { eleve: ident, tests: {...prev.tests, ...(partial.tests||{})} };
-  localStorage.setItem(STORAGE_KEY_RESULTS, JSON.stringify(all));
+function getDuo(){ try { return JSON.parse(localStorage.getItem(KEY_DUO) || 'null'); } catch { return null; } }
+function saveDuo(duo){ localStorage.setItem(KEY_DUO, JSON.stringify(duo)); }
+function ensureDuo(){ let d=getDuo(); if(!d){ d={ eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}], tests:{ Endurance:[null,null], Saut:[null,null], Vitesse:[null,null] } }; saveDuo(d); } return getDuo(); }
+function identOK(i){ const e=ensureDuo().eleves[i]; return e && e.Nom && e.Prenom && e.Classe && e.Sexe; }
+
+// Build ScanProf-compatible payload: two students
+function buildQrPayload(){
+  const d = ensureDuo();
+  const pack = d.eleves.map((e,i)=>{
+    const t = d.tests;
+    const node = { app:'Aptitudes6e', version:1,
+      eleve: { Nom:e.Nom, Prenom:e.Prenom, Classe:e.Classe, Sexe:e.Sexe },
+      tests: {}
+    };
+    if(t.Endurance[i]) node.tests.Endurance = t.Endurance[i];
+    if(t.Saut[i]) node.tests.Saut = t.Saut[i];
+    if(t.Vitesse[i]) node.tests.Vitesse = t.Vitesse[i];
+    return node;
+  });
+  return { pack, meta:{ date:new Date().toISOString().slice(0,10), source:'TestSixieme' } };
 }
-function getResultsFor(ident){ const k = keyFromIdent(ident); const all = getAllResults(); return all[k] || {eleve: ident, tests:{}}; }
-function buildQrPayload(ident){ const res = getResultsFor(ident); return { app:'Aptitudes6e', version:1, eleve: ident, tests: res.tests, meta:{date:new Date().toISOString().slice(0,10), source:'TestSixieme'} }; }
-function ensureIdentityOrRedirect(){ const ident = getCurrentIdentity(); if(!ident||!ident.Nom||!ident.Prenom||!ident.Classe||!ident.Sexe){ window.location.href='tests.html'; } return ident; }

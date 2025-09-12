@@ -1,10 +1,32 @@
-function $(s){return document.querySelector(s)};
-function bindIdentityForm(root=document){
-  const ident = getCurrentIdentity() || {Nom:'', Prenom:'', Classe:'', Sexe:''};
-  const nom = root.querySelector('#nom'); const prenom = root.querySelector('#prenom'); const classe = root.querySelector('#classe'); const sexe = root.querySelector('#sexe');
-  if(nom) nom.value = ident.Nom||''; if(prenom) prenom.value = ident.Prenom||''; if(classe) classe.value = ident.Classe||''; if(sexe) sexe.value = ident.Sexe||'';
-  const btn = root.querySelector('#save-identite');
-  if(btn){ btn.addEventListener('click', ()=>{ const upd={Nom:nom.value.trim().toUpperCase(), Prenom:prenom.value.trim(), Classe:classe.value.trim(), Sexe:sexe.value}; setCurrentIdentity(upd); renderIdentityBadge(); alert('Identité enregistrée 👍'); })}
+function $(s){return document.querySelector(s)}
+function $all(s){return Array.from(document.querySelectorAll(s))}
+
+// Fill identity form for two students
+function bindDuoIdentity(){
+  const d = ensureDuo();
+  ['0','1'].forEach(idx=>{
+    const e = d.eleves[Number(idx)];
+    const root = document.querySelector(`[data-eleve="${idx}"]`);
+    root.querySelector('.nom').value = e.Nom||'';
+    root.querySelector('.prenom').value = e.Prenom||'';
+    root.querySelector('.classe').value = e.Classe||'';
+    root.querySelector('.sexe').value = e.Sexe||'';
+  });
+  document.getElementById('save-duo').addEventListener('click', ()=>{
+    const upd = ensureDuo();
+    ['0','1'].forEach(idx=>{
+      const root = document.querySelector(`[data-eleve="${idx}"]`);
+      upd.eleves[Number(idx)] = {
+        Nom: (root.querySelector('.nom').value||'').toUpperCase().trim(),
+        Prenom: (root.querySelector('.prenom').value||'').trim(),
+        Classe: (root.querySelector('.classe').value||'').trim(),
+        Sexe: root.querySelector('.sexe').value||''
+      };
+    });
+    saveDuo(upd);
+    alert('Identités enregistrées 👍');
+  });
 }
-function renderIdentityBadge(){ const b=$('#ident-badge'); const id=getCurrentIdentity(); if(b && id){ b.textContent = `${id.Prenom||''} ${id.Nom||''} · ${id.Classe||''} · ${id.Sexe||''}`; } }
-document.addEventListener('DOMContentLoaded', renderIdentityBadge);
+
+// Nav helpers
+function go(href){ window.location.href = href; }
