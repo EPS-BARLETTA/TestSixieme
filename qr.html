@@ -6,50 +6,57 @@ html,body{height:100%;margin:0}
 body{display:flex;align-items:center;justify-content:center;background:#ffffff;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif}
 .wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
 #qrcode{background:#ffffff;padding:16px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
-.info{color:#64748b;font-size:12px;text-align:center}
 .topbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);}
 .topbar a{padding:10px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#f8fafc;color:#0b1324;text-decoration:none}
+.msg{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#0b1324;color:#fff;padding:10px 14px;border-radius:12px;display:none}
 </style>
 </head><body>
 <div class="topbar"><a id="retour" href="#">Retour</a></div>
 <div class="wrap">
   <div id="qrcode"></div>
 </div>
+<div class="msg" id="msg">Complétez d’abord les 3 tests pour les 2 élèves.</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-const KEY='ts6e.duo';
+const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
 function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
-function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
-function ensure(){let d=getDuo();if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}};saveDuo(d)}return getDuo()}
+function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
+  if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
+  return JSON.parse(localStorage.getItem(KEY));
+}
 function identOK(i){const e=ensure().eleves[i];return e&&e.Nom&&e.Prenom&&e.Classe&&e.Sexe}
 function bothIdent(){return identOK(0)&&identOK(1)}
-function allHaveResults(){
-  const d=ensure();
-  return d.tests.Endurance[0] && d.tests.Endurance[1] &&
-         d.tests.Saut[0] && d.tests.Saut[1] &&
-         d.tests.Vitesse[0] && d.tests.Vitesse[1];
-}
+function secRead(){return localStorage.getItem(KEY_SEC)==='1'}
+function requireSec(){ if(!secRead()){ alert("Merci de lire la fiche Sécurité avant de continuer."); location.href='securite.html'; return false;} return true; }
 function vmaFrom(i){const d=ensure(); const t=d.tests.Endurance[i]; return t && t.vma_kmh!=null ? t.vma_kmh : (t&&t.palier!=null? +(8.5+0.5*t.palier).toFixed(1):0);}
 function bestLongueur(i){const d=ensure(); const t=d.tests.Saut[i]; return t && t.best_cm!=null ? t.best_cm : 0;}
 function vitesseFrom(i){const d=ensure(); const t=d.tests.Vitesse[i]; return t && t.t_30m_s!=null ? t.t_30m_s : 0;}
+
+function allHaveResults(){
+  const d=ensure();
+  const okEnd = [0,1].every(i=>{ const t=d.tests.Endurance[i]; return t && ((t.vma_kmh>0) || (t.palier>0)); });
+  const okSaut = [0,1].every(i=>{ const t=d.tests.Saut[i]; return t && (t.best_cm>0); });
+  const okVit  = [0,1].every(i=>{ const t=d.tests.Vitesse[i]; return t && (t.t_30m_s>0); });
+  return okEnd && okSaut && okVit;
+}
 function payload(){
   const d=ensure();
   const E=(i)=>{const e=d.eleves[i];return {"nom":e.Nom,"prenom":e.Prenom,"classe":e.Classe,"sexe":e.Sexe,"vma":+(vmaFrom(i)||0),"saut en longueur":+(bestLongueur(i)||0),"vitesse":+(vitesseFrom(i)||0)};};
   return [E(0),E(1)];
 }
 function gen(){
-  if(!bothIdent()){ alert("Complétez l’identité des 2 élèves."); location.href='identite.html'; return; }
-  if(!allHaveResults()){ alert("Saisir les 3 tests pour les 2 élèves avant le QR."); location.href='menu.html'; return; }
-  const text = JSON.stringify(payload());
-  const node=document.getElementById('qrcode'); node.innerHTML='';
-  // Large QR 380x380 for iPad scanning
-  new QRCode(node,{text:text,width:380,height:380});
-}
-// Retour: vers Menu si identités remplies sinon Accueil
-function setRetour(){
+  if(!requireSec()) return;
   const a=document.getElementById('retour');
-  a.href = bothIdent() ? 'menu.html' : 'index.html';
+  a.href = bothIdent()? 'menu.html':'index.html';
+  if(!(bothIdent())){ alert('Complétez l’identité des 2 élèves.'); location.href='identite.html'; return; }
+  if(!allHaveResults()){
+    const m=document.getElementById('msg'); m.style.display='block';
+    setTimeout(()=>{ location.href='menu.html'; }, 1400);
+    return;
+  }
+  const node=document.getElementById('qrcode'); node.innerHTML='';
+  new QRCode(node,{text:JSON.stringify(payload()),width:400,height:400});
 }
-document.addEventListener('DOMContentLoaded', ()=>{ setRetour(); gen(); });
+document.addEventListener('DOMContentLoaded', gen);
 </script>
 </body></html>

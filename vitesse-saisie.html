@@ -1,86 +1,71 @@
 <!DOCTYPE html><html lang="fr"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TestSixième — Vitesse 30 m</title>
-<style>
+<title>TestSixième — Vitesse 30 m</title><style>
 :root{
   --ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;
-  --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;--cyan:#06b6d4;--orange:#f59e0b;--violet:#7c3aed;
+  --blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;
+  --cyan:#06b6d4;--orange:#f59e0b;--violet:#7c3aed;--rose:#e11d48;
+  --calm1:#e6f1ff; --calm2:#e7fff6; --calm3:#fff3e6; --calm4:#f1e6ff;
 }
 *{box-sizing:border-box} html,body{height:100%}
-body{
-  margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);
-  background:radial-gradient(1200px 600px at 20% -10%, rgba(59,130,246,.10), transparent 60%),
-             radial-gradient(900px 420px at 90% 0%, rgba(124,58,237,.10), transparent 60%),
-             linear-gradient(180deg,#f8fafc 0%, #eef2ff 60%, #f8fafc 100%);
-  display:flex;flex-direction:column;min-height:100vh
-}
-.container{width:100%;max-width:980px;margin:0 auto;padding:20px;display:flex;flex-direction:column;min-height:100vh}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);
+  background:linear-gradient(180deg,#f8fafc,#eef2ff); display:flex;flex-direction:column;min-height:100vh}
+.container{max-width:980px;margin:0 auto;padding:24px;display:flex;flex-direction:column;min-height:100vh}
 .section-center{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center}
-.footer{padding:28px 0;color:#94a3b8;text-align:center;font-size:12px}
-h1{font-size:56px;margin:0 0 8px;letter-spacing:.3px}
-.hero-actions{display:flex;flex-direction:column;gap:12px;align-items:center}
-.btn{padding:16px 20px;border-radius:16px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
-.btn:hover{transform:translateY(-1px)}
+.footer{padding:24px 0;color:#94a3b8;text-align:center;font-size:12px}
+h1{font-size:50px;margin:0 0 8px}
+.btn{padding:16px 20px;border-radius:16px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;text-decoration:none;color:#0b1324;display:inline-block}
 .btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)}
 .btn.help{background:linear-gradient(135deg,var(--orange),#fb923c);color:#fff;border:none}
 .btn.safe{background:linear-gradient(135deg,var(--cyan),#22d3ee);color:#fff;border:none}
-.grid{display:grid;gap:18px}
-.grid.cards{grid-template-columns:repeat(auto-fit,minmax(340px,1fr));align-items:stretch;justify-items:center}
-.card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 12px 36px rgba(10,18,40,.08);width:100%;max-width:560px}
-.card h3{margin:6px 0}
+.grid{display:grid;gap:16px}
+.grid.cards{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 10px 28px rgba(10,18,40,.08)}
 label{font-size:14px;color:#334155;display:block;margin-bottom:6px}
 .input{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:#fff;font-size:16px}
 .row{display:flex;gap:14px;flex-wrap:wrap}
 .col{flex:1;min-width:240px}
 .sticky-actions{position:sticky;bottom:0;display:flex;gap:12px;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);padding:12px 0;margin-top:18px}
-.badge{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:13px;color:#475569;background:#fff}
+.tag{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,#0ea5e9,#7c3aed);color:#fff;font-weight:800}
+.badge{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff}
 .kpi{flex:1;min-width:240px;background:rgba(255,255,255,.9);border:1px solid var(--border);padding:18px;border-radius:18px;box-shadow:0 8px 24px rgba(10,18,40,.08)}
 .kpi .big{font-size:48px;font-weight:800}
-/* Élève themes */
 .e1 {--accent: var(--blue); --accent2: var(--blue2);}
 .e2 {--accent: var(--green); --accent2: var(--green2);}
-.card.e1, .kpi.e1 {border-color:rgba(37,99,235,.35)}
-.card.e2, .kpi.e2 {border-color:rgba(22,163,74,.35)}
-.tag{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:800;letter-spacing:.2px}
+.card.e1{border-color:rgba(37,99,235,.35)} .card.e2{border-color:rgba(22,163,74,.35)}
+/* Calm blocks */
+.block{border-radius:18px;border:1px solid var(--border);padding:18px}
+.block.c1{background:var(--calm1)} .block.c2{background:var(--calm2)} .block.c3{background:var(--calm3)} .block.c4{background:var(--calm4)}
 /* Prof Luc-Léger */
-.progress{height:28px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.06);position:relative}
+.progress{height:30px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.06);position:relative}
 .progress>div.bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));width:0}
 .runner{position:absolute;top:50%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#fb923c);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
 .prof-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:100%;max-width:900px}
 .prof-kpis .kpi .big{font-size:56px}
-/* Vitesse chronos */
+/* Chronos vitesse */
 .chrono-box{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.live{font-variant-numeric:tabular-nums; font-size:46px; font-weight:800; letter-spacing:.5px; padding:8px 12px; border-radius:12px; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent2)); min-width:160px; text-align:center}
+.live{font-variant-numeric:tabular-nums;font-size:46px;font-weight:800;letter-spacing:.5px;padding:8px 12px;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));min-width:160px;text-align:center}
 .big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
 .big-btn{display:block;min-width:340px;text-align:center;padding:20px 24px;border-radius:18px;color:#fff;font-weight:800;font-size:20px;box-shadow:0 10px 26px rgba(0,0,0,.12)}
 .big-btn.blue{background:linear-gradient(135deg,var(--blue),var(--violet))}
 .big-btn.green{background:linear-gradient(135deg,var(--green),var(--green2))}
 .big-btn.orange{background:linear-gradient(135deg,var(--orange),#fb923c)}
-pre{white-space:pre-wrap;background:#0b1224;color:#dbeafe;padding:14px;border-radius:12px;overflow:auto;max-width:860px}
-.center-note{display:flex;justify-content:center}
-</style>
-</head><body>
-<div class="container">
-  
-  <div class="section-center" style="padding-bottom:0;gap:6px">
-    <div class="tag" style="background:linear-gradient(135deg,#0ea5e9,#7c3aed)">TestSixième</div>
-    <div class="notice">Endurance · Saut · Vitesse</div>
-  </div>
-  <div class="section-center" style="padding-top:0">
-    
+</style></head>
+<body><div class="container">
+  <div class="section-center" style="gap:10px">
 <div class="grid cards">
   <div class="card e1" data-i="0">
-    <div class="tag">Élève 1 — <span class="who"></span></div>
+    <div class="badge">Élève 1 — <span class="who"></span></div>
     <div class="chrono-box">
-      <div class="live e1" id="live0">0.00</div>
+      <div class="live" id="live0">0.00</div>
       <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
       <div><button class="btn" id="btn0">Start</button></div>
     </div>
   </div>
   <div class="card e2" data-i="1">
-    <div class="tag" style="background:linear-gradient(135deg,var(--green),var(--green2))">Élève 2 — <span class="who"></span></div>
+    <div class="badge">Élève 2 — <span class="who"></span></div>
     <div class="chrono-box">
-      <div class="live e2" id="live1">0.00</div>
+      <div class="live" id="live1">0.00</div>
       <div class="col"><label>Temps (s) — corrige si besoin</label><input class="input chrono" type="number" min="0" step="0.01" placeholder="0.00"/></div>
       <div><button class="btn" id="btn1">Start</button></div>
     </div>
@@ -88,19 +73,23 @@ pre{white-space:pre-wrap;background:#0b1224;color:#dbeafe;padding:14px;border-ra
 </div>
 <div class="sticky-actions">
   <a class="btn" href="menu.html">Menu</a>
-  <a class="btn primary" id="next">Enregistrer & Menu</a>
+  <a class="btn primary" id="save">Enregistrer & Menu</a>
 </div>
-
-  </div>
+</div>
   <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
 </div>
 <script>
-const KEY='ts6e.duo';
+const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
 function getDuo(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}
+function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
+  if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
+  return JSON.parse(localStorage.getItem(KEY));
+}
 function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
-function ensure(){let d=getDuo();if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}};saveDuo(d)}return getDuo()}
 function identOK(i){const e=ensure().eleves[i];return e&&e.Nom&&e.Prenom&&e.Classe&&e.Sexe}
 function bothIdent(){return identOK(0)&&identOK(1)}
+function secRead(){return localStorage.getItem(KEY_SEC)==='1'}
+function requireSec(){ if(!secRead()){ alert("Merci de lire la fiche Sécurité avant de continuer."); location.href='securite.html'; return false;} return true; }
 function go(h){location.href=h}
 function labelEleve(i){const d=ensure(); const e=d.eleves[i]||{}; return (e.Prenom||'')+' '+(e.Nom||'');}
 </script>
@@ -118,19 +107,23 @@ function toggle(i,card){
   else{ running[i]=false; cancelAnimationFrame(raf[i]); const t=(performance.now()-t0[i])/1000; input.value=t.toFixed(2); btn.textContent='Start'; }
 }
 document.addEventListener('DOMContentLoaded',()=>{
-  if(!bothIdent()){ go('identite.html'); return; }
+  if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
+  const d=ensure();
+  if(!(d.eleves && d.eleves[0].Nom && d.eleves[0].Prenom && d.eleves[0].Classe && d.eleves[0].Sexe &&
+       d.eleves[1].Nom && d.eleves[1].Prenom && d.eleves[1].Classe && d.eleves[1].Sexe)){
+    go('identite.html'); return;
+  }
   [0,1].forEach(i=>{
     const card=document.querySelector('[data-i="'+i+'"]');
-    card.querySelector('.who').textContent=labelEleve(i);
+    card.querySelector('.who').textContent=(d.eleves[i].Prenom||'')+' '+(d.eleves[i].Nom||'');
     card.querySelector('#btn'+i).onclick=()=>toggle(i,card);
   });
-  document.getElementById('next').onclick=()=>{
+  document.getElementById('save').onclick=()=>{
     const v0=parseFloat(document.querySelector('[data-i="0"] .chrono').value)||0;
     const v1=parseFloat(document.querySelector('[data-i="1"] .chrono').value)||0;
     if(!(v0>0 && v1>0)){ alert('Renseigner les temps pour les deux élèves.'); return; }
     let u=ensure();
-    u.tests.Vitesse[0]={type:'Sprint30m',t_30m_s:+v0.toFixed(2)};
-    u.tests.Vitesse[1]={type:'Sprint30m',t_30m_s:+v1.toFixed(2)};
+    u.tests.Vitesse[0]={t_30m_s:+v0.toFixed(2)}; u.tests.Vitesse[1]={t_30m_s:+v1.toFixed(2)};
     saveDuo(u); go('menu.html');
   };
 });
