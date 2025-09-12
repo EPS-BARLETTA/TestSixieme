@@ -26,28 +26,19 @@
     <div class="card">
       <h3>Identité élève</h3>
       <div class="row">
-        <div class="col">
-          <label>Nom</label><input id="nom" class="input" placeholder="DUPONT"/>
-        </div>
-        <div class="col">
-          <label>Prénom</label><input id="prenom" class="input" placeholder="Léa"/>
-        </div>
+        <div class="col"><label>Nom</label><input id="nom" class="input" placeholder="DUPONT"/></div>
+        <div class="col"><label>Prénom</label><input id="prenom" class="input" placeholder="Léa"/></div>
       </div>
       <div class="row">
-        <div class="col">
-          <label>Classe</label><input id="classe" class="input" placeholder="6B"/>
-        </div>
-        <div class="col">
-          <label>Sexe</label>
-          <select id="sexe" class="input"><option value="">—</option><option>F</option><option>M</option></select>
-        </div>
+        <div class="col"><label>Classe</label><input id="classe" class="input" placeholder="6B"/></div>
+        <div class="col"><label>Sexe</label><select id="sexe" class="input"><option value="">—</option><option>F</option><option>M</option></select></div>
       </div>
       <div class="sticky-actions">
         <button id="save-identite" class="btn primary">Enregistrer l’identité</button>
       </div>
     </div>
 
-    <h2 style="margin-top:18px;margin-bottom:8px">Choisir un test</h2>
+    <h2>Choisir un test</h2>
     <div class="grid cards">
       <a class="card" href="luc-leger.html">
         <div class="badge">Endurance</div>
@@ -74,7 +65,7 @@
         <button id="gen-qr" class="btn primary">Générer le QR</button>
         <button id="clear" class="btn red">Réinitialiser tout</button>
       </div>
-      <pre id="json" class="card" style="max-height:240px;overflow:auto;font-size:12px"></pre>
+      <pre id="json" class="card" style="max-height:260px;overflow:auto;font-size:12px"></pre>
       <div id="qrcode" class="card" style="display:grid;place-items:center"></div>
     </div>
   </div>
@@ -89,10 +80,10 @@ document.getElementById('gen-json').addEventListener('click', ()=>{
 });
 document.getElementById('gen-qr').addEventListener('click', ()=>{
   const ident=getCurrentIdentity(); if(!ident||!ident.Nom||!ident.Prenom||!ident.Classe||!ident.Sexe){alert('Complétez l’identité');return;}
-  const payload = buildQrPayload(ident);
+  const payload=buildQrPayload(ident);
   document.getElementById('json').textContent = JSON.stringify(payload,null,2);
-  document.getElementById('qrcode').innerHTML = '';
-  new QRCode(document.getElementById('qrcode'), { text: JSON.stringify(payload), width: 240, height: 240 });
+  document.getElementById('qrcode').innerHTML='';
+  new QRCode(document.getElementById('qrcode'), {text: JSON.stringify(payload), width:260, height:260});
 });
 document.getElementById('clear').addEventListener('click', ()=>{ localStorage.removeItem('tests6e.results'); alert('Résultats effacés.'); });
 </script>
