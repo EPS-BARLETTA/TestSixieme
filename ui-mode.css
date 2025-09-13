@@ -1,6 +1,4 @@
-/* ui-mode.css — Add-on: forces phone sizing when user chooses it.
-   Default is "Auto" (responsive). Apply via data-ui-mode on <html>.
-*/
+/* ui-mode.css v2 — stronger phone overrides + smaller UI */
 :root{
   --container-max: 1000px;
   --gap: 12px;
@@ -9,16 +7,16 @@
   --h1: clamp(20px, 3.2vw, 28px);
   --btn: clamp(14px, 1.8vw, 18px);
 }
-/* Force Phone (compact) */
+/* PHONE MODE (forced) */
 html[data-ui-mode="phone"]{
-  --container-max: 480px;
+  --container-max: 420px;
   --gap: 10px;
-  --tap: 46px;
+  --tap: 40px;
   --text: 16px;
-  --h1: 22px;
+  --h1: 26px;
   --btn: 16px;
 }
-/* Default Auto via media query */
+/* AUTO on wide screens */
 @media (min-width: 768px){
   html:not([data-ui-mode="phone"]){
     --container-max: 1100px;
@@ -29,13 +27,15 @@ html[data-ui-mode="phone"]{
     --btn: 18px;
   }
 }
-/* Generic helpers (non-invasive) */
-.container, main, .wrap, .main {
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: 12px;
-}
-h1, .title { font-size: var(--h1); line-height: 1.2; }
+/* Apply container width with high priority */
+.container, main, .wrap, .main { max-width: var(--container-max) !important; margin-inline:auto; padding-inline: 16px; }
+h1, .title { font-size: var(--h1) !important; line-height: 1.2; }
 button, .button, input[type="submit"]{ min-height: var(--tap); font-size: var(--btn); }
 input, select{ min-height: calc(var(--tap) - 6px); font-size: var(--text); }
-@media print { #home-ui-mode-banner { display:none; } }
+
+/* Additional compact tweaks in phone mode */
+html[data-ui-mode="phone"] .btn{ padding: 12px 14px !important; min-width: 140px !important; border-radius: 14px !important; font-size: 16px !important; }
+html[data-ui-mode="phone"] .grid.cards{ grid-template-columns: 1fr !important; }
+html[data-ui-mode="phone"] .big-btn{ min-width: 260px !important; padding: 18px 20px !important; font-size: 18px !important; }
+html[data-ui-mode="phone"] .live{ font-size: 36px !important; min-width: 140px !important; }
+html[data-ui-mode="phone"] .card{ min-height: auto !important; }

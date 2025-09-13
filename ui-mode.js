@@ -1,4 +1,4 @@
-// ui-mode.js — core apply/remember logic
+// ui-mode.js v2 — core apply/remember logic
 (function(){
   const PREF_KEY = 'uiMode'; // 'auto' | 'phone'
   function apply(mode){

@@ -49,16 +49,17 @@ label{font-size:16px;color:#334155;display:block;margin-bottom:6px}
 .center{display:flex;flex-direction:column;align-items:center}
 .small{font-size:14px;color:#64748b}</style>
 
-<!-- UI mode CSS (ajout) -->
-<link rel="stylesheet" href="ui-mode.css">
-<link rel="stylesheet" href="home-ui-mode.css">
+<!-- UI mode CSS (v2, cache-busting) -->
+<link rel="stylesheet" href="ui-mode.css?v=2">
+<link rel="stylesheet" href="home-ui-mode.css?v=2">
 </head>
 <body><div class="container">
   <div class="section-center" style="gap:10px">
 <h1>TestSixième</h1>
 <a class="btn primary" style="font-size:28px;padding:22px 30px" href="securite.html">Démarrer</a>
-<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+<div id="actions-row" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
   <a class="btn help" href="securite.html">Aide</a>
+  <!-- Le petit lien sera injecté ici par home-ui-mode.js -->
 </div>
 </div>
   <div class="footer">
@@ -80,7 +81,7 @@ function requireSec(){ if(!secRead()){ alert('Merci de lire la fiche Sécurité 
 function go(h){location.href=h}
 if('serviceWorker' in navigator){ window.addEventListener('load', ()=>{ navigator.serviceWorker.register('service-worker.js').catch(()=>{}); }); }</script>
 
-<!-- UI mode JS (ajout) -->
-<script src="ui-mode.js" defer></script>
-<script src="home-ui-mode.js" defer></script>
+<!-- UI mode JS (v2, cache-busting) -->
+<script src="ui-mode.js?v=2" defer></script>
+<script src="home-ui-mode.js?v=2" defer></script>
 </body></html>

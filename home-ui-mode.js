@@ -1,48 +1,39 @@
-// home-ui-mode.js — adds one simple button on the landing page (index.html)
-// "Optimiser pour téléphone" -> saves preference then reloads
+// home-ui-mode.js v2 — injects a tiny inline link in the actions row
 (function(){
-  const isHome = /(?:^|\/)index\.html?$/.test(location.pathname) || location.pathname === '/';
-  function build(){
-    if(document.getElementById('home-ui-mode-banner')) return;
-    const wrap = document.createElement('div');
-    wrap.id = 'home-ui-mode-banner';
-    const card = document.createElement('div');
-    card.className = 'card';
-    const state = document.createElement('span');
-    state.className = 'state';
-    const primary = document.createElement('button');
-    const alt = document.createElement('button');
-    alt.className = 'link'; alt.type = 'button';
+  function buildInline(){
+    const actions = document.getElementById('actions-row') || document.querySelector('.section-center div[style*="justify-content:center"]');
+    if(!actions || actions.querySelector('[data-ui-mini]')) return;
     const pref = window.__UIMode__ ? __UIMode__.get() : 'auto';
     if(pref === 'phone'){
-      state.textContent = 'Mode téléphone activé ✓';
-      primary.textContent = 'Revenir en affichage auto';
-      primary.className = 'link';
-      primary.addEventListener('click', ()=>{ __UIMode__.clear(); location.reload(); });
-      alt.remove();
-      card.append(state, primary);
+      const back = document.createElement('a');
+      back.href = '#'; back.dataset.uiMini = '1';
+      back.className = 'ui-mode-mini';
+      back.textContent = 'Revenir en auto';
+      back.addEventListener('click', (e)=>{ e.preventDefault(); __UIMode__.clear(); location.reload(); });
+      const state = document.createElement('span');
+      state.className = 'ui-mode-mini'; state.dataset.uiMini = '1';
+      state.textContent = '📱 Téléphone ✓';
+      actions.append(state, back);
     }else{
-      state.textContent = 'Affichage Auto (par défaut)';
-      primary.textContent = 'Optimiser pour téléphone';
-      primary.className = 'primary';
-      primary.type = 'button';
-      primary.addEventListener('click', ()=>{ __UIMode__.set('phone'); location.reload(); });
-      alt.textContent = 'Laisser en Auto';
-      alt.addEventListener('click', ()=>{ __UIMode__.clear(); location.reload(); });
-      card.append(state, primary, alt);
+      const opt = document.createElement('a');
+      opt.href = '#'; opt.dataset.uiMini = '1';
+      opt.className = 'ui-mode-mini primary';
+      opt.textContent = '📱 Optimiser pour téléphone';
+      opt.addEventListener('click', (e)=>{ e.preventDefault(); __UIMode__.set('phone'); location.reload(); });
+      const keep = document.createElement('a');
+      keep.href = '#'; keep.dataset.uiMini = '1';
+      keep.className = 'ui-mode-mini';
+      keep.textContent = 'Laisser en auto';
+      keep.addEventListener('click', (e)=>{ e.preventDefault(); __UIMode__.clear(); location.reload(); });
+      actions.append(opt, keep);
     }
-    wrap.appendChild(card);
-    document.body.prepend(wrap);
   }
   function init(){
-    if(!isHome) return;
     if(!window.__UIMode__){
-      const iv = setInterval(()=>{
-        if(window.__UIMode__){ clearInterval(iv); build(); }
-      }, 50);
-      setTimeout(()=>clearInterval(iv), 2000);
+      const iv = setInterval(()=>{ if(window.__UIMode__){ clearInterval(iv); buildInline(); } }, 50);
+      setTimeout(()=>clearInterval(iv),2000);
     }else{
-      build();
+      buildInline();
     }
   }
   if(document.readyState === 'loading'){
