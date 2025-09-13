@@ -80,22 +80,28 @@ label{font-size:16px;color:#334155;display:block;margin-bottom:6px}
 </div>
 <script>
 
+const LOCK={Endu:'ts6e.lock.endu',Saut:'ts6e.lock.saut',Vit:'ts6e.lock.vit'};
+function isLocked(k){ return localStorage.getItem(k)==='1'; }
+function setLock(k,on){ localStorage.setItem(k, on?'1':'0'); }
+function setDisabled(scope,on){ scope.querySelectorAll('input,select,button').forEach(el=>{
+  const id=el.id||''; if(id==='edit' || id==='save' || el.getAttribute('href')) return;
+  el.disabled=!!on;
+}); }
+
 let running=[false,false], t0=[0,0], raf=[0,0];
 function tick(i){ if(!running[i]) return; const t=(performance.now()-t0[i])/1000; document.getElementById('live'+i).textContent=t.toFixed(2); raf[i]=requestAnimationFrame(()=>tick(i)); }
 function toggle(i,card){ const btn=card.querySelector('#btn'+i), input=card.querySelector('.chrono'); if(!running[i]){ running[i]=true; t0[i]=performance.now(); btn.textContent='Stop'; tick(i);} else{ running[i]=false; cancelAnimationFrame(raf[i]); const t=(performance.now()-t0[i])/1000; input.value=t.toFixed(2); btn.textContent='Start'; } }
-function setDisabled(scope, on){ scope.querySelectorAll('input,select,button').forEach(el=>{ if(el.id==='edit'||el.id==='save'||el.getAttribute('href')) return; if(el.classList.contains('btn') && el.id && el.id.startsWith('btn')){ el.disabled=!!on; } else { el.disabled=!!on; } }); }
-function alreadyFilled(){ const d=ensure(); const t=d.tests.Vitesse; return t && t[0] && t[1]; }
 document.addEventListener('DOMContentLoaded',()=>{
   if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
   const d=ensure();
-  [0,1].forEach(i=>{ const card=document.querySelector('[data-i="'+i+'"]'); const e=d.eleves[i]||{}; card.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||''); const t=d.tests.Vitesse[i]||{}; if(t.t_30m_s!=null){ card.querySelector('.chrono').value=t.t_30m_s; card.querySelector('#live'+i).textContent=(+t.t_30m_s).toFixed(2);} card.querySelector('#btn'+i).onclick=()=>toggle(i,card); });
-  const page=document.querySelector('.section-center'); const lock = alreadyFilled(); if(lock) setDisabled(page,true);
-  document.getElementById('edit').onclick=()=>{ if(confirm('Modifier les données enregistrées ?')) setDisabled(page,false); };
+  [0,1].forEach(i=>{ const card=document.querySelector('[data-i="'+i+'"]'); const e=d.eleves[i]||{}; card.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||''); const t=d.tests.Vitesse[i]||{}; if(t.t_30m_s!=null){ card.querySelector('.chrono').value=t.t_30m_s; document.getElementById('live'+i).textContent=(+t.t_30m_s).toFixed(2);} card.querySelector('#btn'+i).onclick=()=>toggle(i,card); });
+  const page=document.querySelector('.section-center'); if(isLocked(LOCK.Vit)) setDisabled(page,true);
+  document.getElementById('edit').onclick=()=>{ if(confirm('Modifier les données enregistrées ?')){ setLock(LOCK.Vit,false); setDisabled(page,false); } };
   document.getElementById('save').onclick=()=>{
     const v0=parseFloat(document.querySelector('[data-i="0"] .chrono').value)||0; const v1=parseFloat(document.querySelector('[data-i="1"] .chrono').value)||0;
     if(!(v0>0 && v1>0)){ alert('Renseigner les temps pour les deux élèves.'); return; }
     let u=ensure(); u.tests.Vitesse[0]={t_30m_s:+v0.toFixed(2)}; u.tests.Vitesse[1]={t_30m_s:+v1.toFixed(2)};
-    saveDuo(u); go('menu.html');
+    saveDuo(u); setLock(LOCK.Vit,true); go('menu.html');
   };
 });
 

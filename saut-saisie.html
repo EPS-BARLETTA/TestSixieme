@@ -88,28 +88,33 @@ label{font-size:16px;color:#334155;display:block;margin-bottom:6px}
 </div>
 <script>
 
-function setDisabled(scope, on){ scope.querySelectorAll('input,select,button').forEach(el=>{ if(el.id==='edit'||el.id==='save'||el.getAttribute('href')) return; el.disabled=!!on; }); }
-function alreadyFilled(){ const d=ensure(); const t=d.tests.Saut; return t && t[0] && t[1]; }
+const LOCK={Endu:'ts6e.lock.endu',Saut:'ts6e.lock.saut',Vit:'ts6e.lock.vit'};
+function isLocked(k){ return localStorage.getItem(k)==='1'; }
+function setLock(k,on){ localStorage.setItem(k, on?'1':'0'); }
+function setDisabled(scope,on){ scope.querySelectorAll('input,select,button').forEach(el=>{
+  const id=el.id||''; if(id==='edit' || id==='save' || el.getAttribute('href')) return;
+  el.disabled=!!on;
+}); }
+
 document.addEventListener('DOMContentLoaded',()=>{
   if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
   const d=ensure();
-  
-[0,1].forEach(i=>{ const r=document.querySelector('[data-i="'+i+'"]'); const e=d.eleves[i]||{}; r.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||'');
-  const t=d.tests.Saut[i]||{}; if(t.essais_cm){ const [a,b,c]=t.essais_cm; if(a!=null) r.querySelector('.e1v').value=a; if(b!=null) r.querySelector('.e2v').value=b; if(c!=null){ r.querySelector('.toggle3').checked=true; r.querySelector('.opt3').style.display=''; r.querySelector('.e3v').value=c; } }
-  const calc=()=>{const v1=+r.querySelector('.e1v').value||0, v2=+r.querySelector('.e2v').value||0, v3=r.querySelector('.toggle3').checked?(+r.querySelector('.e3v').value||0):0; r.querySelector('.best').textContent=Math.max(v1,v2,v3)||'-';};
-  r.querySelector('.toggle3').onchange=()=>{r.querySelector('.opt3').style.display=r.querySelector('.toggle3').checked?'':'none'; calc();};
-  ['.e1v','.e2v','.e3v'].forEach(sel=>{const el=r.querySelector(sel); if(el) el.oninput=calc;}); calc(); });
-
-  const page=document.querySelector('.section-center');
-  const lock = alreadyFilled();
-  if(lock) setDisabled(page,true);
-  document.getElementById('edit').onclick=()=>{ if(confirm('Modifier les données enregistrées ?')) setDisabled(page,false); };
-  document.getElementById('save').onclick=()=>{ 
-const ok=[0,1].every(i=>{const r=document.querySelector('[data-i="'+i+'"]'); const v1=+r.querySelector('.e1v').value||0; const v2=+r.querySelector('.e2v').value||0; return (v1>0 && v2>0);});
-if(!ok){ alert('Au moins 2 essais > 0 pour chaque élève.'); return; }
- let u=ensure(); 
-[0,1].forEach(i=>{ const r=document.querySelector('[data-i="'+i+'"]'); const vals=[+r.querySelector('.e1v').value||0,+r.querySelector('.e2v').value||0]; if(r.querySelector('.toggle3').checked) vals.push(+r.querySelector('.e3v').value||0); const b=Math.max(...vals); u.tests.Saut[i]={best_cm:b, essais_cm:vals}; });
- saveDuo(u); go('menu.html'); };
+  [0,1].forEach(i=>{
+    const r=document.querySelector('[data-i="'+i+'"]'); const e=d.eleves[i]||{}; r.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||'');
+    const t=d.tests.Saut[i]||{}; if(t.essais_cm){ const [a,b,c]=t.essais_cm; if(a!=null) r.querySelector('.e1v').value=a; if(b!=null) r.querySelector('.e2v').value=b; if(c!=null){ r.querySelector('.toggle3').checked=true; r.querySelector('.opt3').style.display=''; r.querySelector('.e3v').value=c; } }
+    const calc=()=>{const v1=+r.querySelector('.e1v').value||0, v2=+r.querySelector('.e2v').value||0, v3=r.querySelector('.toggle3').checked?(+r.querySelector('.e3v').value||0):0; r.querySelector('.best').textContent=Math.max(v1,v2,v3)||'-';};
+    r.querySelector('.toggle3').onchange=()=>{r.querySelector('.opt3').style.display=r.querySelector('.toggle3').checked?'':'none'; calc();};
+    ['.e1v','.e2v','.e3v'].forEach(sel=>{const el=r.querySelector(sel); if(el) el.oninput=calc;}); calc();
+  });
+  const page=document.querySelector('.section-center'); if(isLocked(LOCK.Saut)) setDisabled(page,true);
+  document.getElementById('edit').onclick=()=>{ if(confirm('Modifier les données enregistrées ?')){ setLock(LOCK.Saut,false); setDisabled(page,false); } };
+  document.getElementById('save').onclick=()=>{
+    const ok=[0,1].every(i=>{const r=document.querySelector('[data-i="'+i+'"]'); const v1=+r.querySelector('.e1v').value||0; const v2=+r.querySelector('.e2v').value||0; return (v1>0 && v2>0);});
+    if(!ok){ alert('Au moins 2 essais > 0 pour chaque élève.'); return; }
+    let u=ensure();
+    [0,1].forEach(i=>{ const r=document.querySelector('[data-i="'+i+'"]'); const vals=[+r.querySelector('.e1v').value||0,+r.querySelector('.e2v').value||0]; if(r.querySelector('.toggle3').checked) vals.push(+r.querySelector('.e3v').value||0); const b=Math.max(...vals); u.tests.Saut[i]={best_cm:b, essais_cm:vals}; });
+    saveDuo(u); setLock(LOCK.Saut,true); go('menu.html');
+  };
 });
 
 </script>
