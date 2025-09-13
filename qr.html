@@ -52,17 +52,17 @@ function payload(){ const d=ensure();
     const vma = (tE.vma_kmh!=null) ? Math.round(tE.vma_kmh*10)/10 : (pal? Math.round((8.0+0.5*pal)*10)/10 : 0);
     const saut = (tS.best_cm!=null) ? Math.round(tS.best_cm) : 0;
     const vit  = (tV.t_30m_s!=null) ? Math.round(tV.t_30m_s*100)/100 : 0;
-    const obj = {};
-    obj["nom"] = e.Nom || "";
-    obj["prenom"] = e.Prenom || "";
-    obj["classe"] = e.Classe || "";
-    obj["sexe"] = e.Sexe || "";
-    obj["vma"] = vma;
-    obj["palier"] = pal;
-    obj["navette"] = nav;
-    obj["saut en longueur"] = saut;
-    obj["vitesse 30m"] = vit;
-    return obj;
+    return {
+      "nom": e.Nom || "",
+      "prenom": e.Prenom || "",
+      "classe": e.Classe || "",
+      "sexe": e.Sexe || "",
+      "Palier": pal,
+      "Navette": nav,
+      "VMA": vma,
+      "Saut en longueur": saut,
+      "Vitesse 30m": vit
+    };
   };
   return [E(0),E(1)];
 }

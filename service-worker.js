@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'testsixieme-v4-10-7';
+const CACHE_NAME = 'testsixieme-v4-10';
 const APP_SHELL = [
   'index.html','securite.html','identite.html','menu.html',
   'endu-saisie.html','saut-saisie.html','vitesse-saisie.html',

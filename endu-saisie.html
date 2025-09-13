@@ -49,47 +49,50 @@ label{font-size:16px;display:block;margin-bottom:6px}
         </div>
       </div>
     </div>
-    <div class="sticky-actions"><button class="btn" id="edit">Modifier</button><a class="btn" href="menu.html">Menu</a><button class="btn primary" id="save">Enregistrer & Menu</button></div>
+    <div class="sticky-actions"><a class="btn" href="menu.html">Menu</a><button class="btn primary" id="save">Enregistrer & Menu</button></div>
   </div>
   <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
 </div>
 <script>
-
-const LOCK={Endu:'ts6e.lock.endu'};
-function isLocked(k){ return localStorage.getItem(k)==='1'; }
-function setLock(k,on){ localStorage.setItem(k, on?'1':'0'); }
-function setDisabled(scope,on){ scope.querySelectorAll('input,select,button').forEach(el=>{ const id=el.id||''; if(id==='edit'||id==='save'||el.getAttribute('href')) return; el.disabled=!!on; }); }
+const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
+function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
+  if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
+  return JSON.parse(localStorage.getItem(KEY));
+}
+function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
 function vmaFromPalier(p){return 8.0+0.5*p}
-function shouldUnlockFromURL(){ return /[?&]unlock=1/.test(location.search); }
-document.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
+function boot(){
+  if(localStorage.getItem(KEY_SEC)!=='1'){ location.href='securite.html'; return; }
   const d=ensure();
   [0,1].forEach(i=>{
     const card=document.querySelector('[data-i="'+i+'"]');
     const e=d.eleves[i]||{}; card.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||'');
-    const saved=(d.tests.Endurance[i]||{});
     const pIn=card.querySelector('.palier'), nIn=card.querySelector('.navette'), vOut=card.querySelector('.vmaCalc');
+    const saved=(d.tests.Endurance[i]||{});
     if(saved.palier!=null) pIn.value=saved.palier;
     if(saved.navette!=null) nIn.value=saved.navette;
-    const update=()=>{ const pv=+pIn.value||0; vOut.textContent=pv? vmaFromPalier(pv).toFixed(1)+' km/h' : '-'; };
-    pIn.addEventListener('input', update); pIn.addEventListener('change', update); update();
+    const update=()=>{ const pv=+pIn.value||0; vOut.textContent = pv? vmaFromPalier(pv).toFixed(1)+' km/h' : '-'; };
+    pIn.addEventListener('input', update);
+    pIn.addEventListener('change', update);
+    // initial compute
+    update();
   });
-  const page=document.querySelector('.section-center');
-  if(shouldUnlockFromURL()){ setLock(LOCK.Endu,false); }
-  if(isLocked(LOCK.Endu)) setDisabled(page,true);
-  document.getElementById('edit').onclick=()=>{ if(confirm('Modifier les données enregistrées ?')){ setLock(LOCK.Endu,false); setDisabled(page,false); } };
-  document.getElementById('save').onclick=()=>{
-    const p0=+document.querySelector('[data-i="0"] .palier').value||0;
-    const p1=+document.querySelector('[data-i="1"] .palier').value||0;
-    const n0=+document.querySelector('[data-i="0"] .navette').value||0;
-    const n1=+document.querySelector('[data-i="1"] .navette').value||0;
-    if(!(p0>0&&n0>0&&p1>0&&n1>0)){ alert('Palier et Navette requis pour les deux élèves.'); return; }
-    let u=ensure();
-    u.tests.Endurance[0]={palier:p0, navette:n0, vma_kmh:+(8.0+0.5*p0).toFixed(1)};
-    u.tests.Endurance[1]={palier:p1, navette:n1, vma_kmh:+(8.0+0.5*p1).toFixed(1)};
-    saveDuo(u); setLock(LOCK.Endu,true); go('menu.html');
-  };
-});
-
+  document.getElementById('save').addEventListener('click', ()=>{
+    const d2=ensure();
+    let ok=true;
+    [0,1].forEach(i=>{
+      const card=document.querySelector('[data-i="'+i+'"]');
+      const pal=+(card.querySelector('.palier').value||0);
+      const nav=+(card.querySelector('.navette').value||0);
+      const vma = pal>0 ? +vmaFromPalier(pal).toFixed(1) : 0;
+      if(!(pal>0 && nav>0 && vma>0)) ok=false;
+      d2.tests.Endurance[i]={palier:pal, navette:nav, vma_kmh:vma};
+    });
+    if(!ok){ alert('Renseigner Palier et Navette (la VMA est calculée) pour les deux élèves.'); return; }
+    saveDuo(d2);
+    location.href='menu.html';
+  });
+}
+document.addEventListener('DOMContentLoaded', boot);
 </script>
 </body></html>

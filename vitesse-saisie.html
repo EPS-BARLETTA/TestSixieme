@@ -68,41 +68,41 @@ label{font-size:16px;color:#334155;display:block;margin-bottom:6px}
     </div>
   </div>
 </div>
-<div class="sticky-actions"><button class="btn" id="edit">Modifier</button>
+<div class="sticky-actions">
   <a class="btn" href="menu.html">Menu</a>
   <a class="btn primary" id="save">Enregistrer & Menu</a>
 </div>
 </div>
   <div class="footer">
     TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB
-    <div class="small">v4.10 · <a href="#" onclick="resetAll();return false;">Réinitialiser le groupe</a> · <a href="#" onclick="localStorage.removeItem('ts6e.lock.endu');localStorage.removeItem('ts6e.lock.saut');localStorage.removeItem('ts6e.lock.vit');alert('Verrouillages supprimés');return false;">Déverrouiller tout</a></div>
+    <div class="small">v4.10 · <a href="#" onclick="resetAll();return false;">Réinitialiser le groupe</a></div>
   </div>
 </div>
+<script>const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
+function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
+  if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
+  return JSON.parse(localStorage.getItem(KEY));
+}
+function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
+function resetAll(){ if(confirm('Réinitialiser toutes les données du groupe ?')){ localStorage.removeItem(KEY); localStorage.removeItem(KEY_SEC); location.href='index.html'; } }
+function identOK(i){const e=ensure().eleves[i];return e&&e.Nom&&e.Prenom&&e.Classe&&e.Sexe}
+function bothIdent(){return identOK(0)&&identOK(1)}
+function secRead(){return localStorage.getItem(KEY_SEC)==='1'}
+function requireSec(){ if(!secRead()){ alert('Merci de lire la fiche Sécurité avant de continuer.'); location.href='securite.html'; return false;} return true; }
+function go(h){location.href=h}
+if('serviceWorker' in navigator){ window.addEventListener('load', ()=>{ navigator.serviceWorker.register('service-worker.js').catch(()=>{}); }); }</script>
 <script>
-
-const LOCK={Vit:'ts6e.lock.vit'};
-function isLocked(k){ return localStorage.getItem(k)==='1'; }
-function setLock(k,on){ localStorage.setItem(k, on?'1':'0'); }
-function setDisabled(scope,on){ scope.querySelectorAll('input,select,button').forEach(el=>{ const id=el.id||''; if(id==='edit'||id==='save'||el.getAttribute('href')) return; if(el.classList.contains('btn') && el.id && el.id.startsWith('btn')){ el.disabled=!!on; } else { el.disabled=!!on; } }); }
-function shouldUnlockFromURL(){ return /[?&]unlock=1/.test(location.search); }
 let running=[false,false], t0=[0,0], raf=[0,0];
 function tick(i){ if(!running[i]) return; const t=(performance.now()-t0[i])/1000; document.getElementById('live'+i).textContent=t.toFixed(2); raf[i]=requestAnimationFrame(()=>tick(i)); }
-function toggle(i,card){ const btn=card.querySelector('#btn'+i), input=card.querySelector('.chrono'); if(!running[i]){ running[i]=true; t0[i]=performance.now(); btn.textContent='Stop'; tick(i);} else{ running[i]=false; cancelAnimationFrame(raf[i]); const t=(performance.now()-t0[i])/1000; input.value=t.toFixed(2); btn.textContent='Start'; } }
+function toggle(i,card){ const btn=card.querySelector('#btn'+i), input=card.querySelector('.chrono'); if(!running[i]){ running[i]=true; t0[i]=performance.now(); btn.textContent='Stop'; tick(i);} else{ running[i]=false; cancelAnimationFrame(raf[i]); const t=(performance.now()-t0[i])/1000; input.value=t.toFixed(2); btn.textContent='Start'; }}
 document.addEventListener('DOMContentLoaded',()=>{
   if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
   const d=ensure();
-  [0,1].forEach(i=>{ const card=document.querySelector('[data-i="'+i+'"]'); const e=d.eleves[i]||{}; card.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||''); const t=d.tests.Vitesse[i]||{}; if(t.t_30m_s!=null){ card.querySelector('.chrono').value=t.t_30m_s; document.getElementById('live'+i).textContent=(+t.t_30m_s).toFixed(2);} card.querySelector('#btn'+i).onclick=()=>toggle(i,card); });
-  const page=document.querySelector('.section-center');
-  if(shouldUnlockFromURL()){ setLock(LOCK.Vit,false); }
-  if(isLocked(LOCK.Vit)) setDisabled(page,true);
-  document.getElementById('edit').onclick=()=>{ if(confirm('Modifier les données enregistrées ?')){ setLock(LOCK.Vit,false); setDisabled(page,false); } };
+  [0,1].forEach(i=>{ const card=document.querySelector('[data-i="'+i+'"]'); const e=d.eleves[i]; card.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||''); card.querySelector('#btn'+i).onclick=()=>toggle(i,card); });
   document.getElementById('save').onclick=()=>{
     const v0=parseFloat(document.querySelector('[data-i="0"] .chrono').value)||0; const v1=parseFloat(document.querySelector('[data-i="1"] .chrono').value)||0;
     if(!(v0>0 && v1>0)){ alert('Renseigner les temps pour les deux élèves.'); return; }
-    let u=ensure(); u.tests.Vitesse[0]={t_30m_s:+v0.toFixed(2)}; u.tests.Vitesse[1]={t_30m_s:+v1.toFixed(2)};
-    saveDuo(u); setLock(LOCK.Vit,true); go('menu.html');
+    let u=ensure(); u.tests.Vitesse[0]={t_30m_s:+v0.toFixed(2)}; u.tests.Vitesse[1]={t_30m_s:+v1.toFixed(2)}; saveDuo(u); go('menu.html');
   };
-});
-
-</script>
+});</script>
 </body></html>
