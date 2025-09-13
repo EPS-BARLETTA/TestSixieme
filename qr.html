@@ -1,13 +1,33 @@
 <!DOCTYPE html><html lang="fr"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="manifest" href="manifest.webmanifest">
 <title>TestSixième — QR</title>
-<style>html,body{height:100%;margin:0} body{display:flex;align-items:center;justify-content:center;background:#ffffff;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif}.wrap{display:flex;flex-direction:column;align-items:center;gap:16px} #qrimg{display:block;width:420px;height:420px;image-rendering:pixelated}.topbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);} .topbar a{padding:10px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#f8fafc;color:#0b1324;text-decoration:none}.msg{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#0b1324;color:#fff;padding:10px 14px;border-radius:12px;display:none}</style>
+<style>
+html,body{height:100%;margin:0}
+body{display:flex;align-items:center;justify-content:center;background:#ffffff;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+#qrimg{display:block;width:420px;height:420px;image-rendering:pixelated}
+.topbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);} .topbar a{padding:10px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#f8fafc;color:#0b1324;text-decoration:none;margin-right:8px}
+.tools{display:flex;gap:10px;justify-content:center}
+.btn{padding:10px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#f8fafc;color:#0b1324;text-decoration:none;cursor:pointer}
+.msg{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#0b1324;color:#fff;padding:10px 14px;border-radius:12px;display:none}
+</style>
 <script defer src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script defer src="https://unpkg.com/qrcode-js-package@1.0.4/qrcode.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head><body>
-<div class="topbar"><a id="retour" href="menu.html">Retour Menu</a></div>
-<div class="wrap"><img id="qrimg" alt="QR"/></div><div class="msg" id="msg">Complétez d’abord les 3 tests pour les 2 élèves.</div>
+<div class="topbar">
+  <a href="menu.html">Retour Menu</a>
+  <a href="#" onclick="resetAll();return false;">Réinitialiser le groupe</a>
+</div>
+<div class="wrap">
+  <div id="qrHolder"><img id="qrimg" alt="QR"/></div>
+  <div class="tools">
+    <button id="dl" class="btn">Télécharger PNG</button>
+    <button id="copy" class="btn">Copier JSON</button>
+  </div>
+</div>
+<div class="msg" id="msg">Complétez d’abord les 3 tests pour les 2 élèves.</div>
 <script>
 const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
 function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
@@ -25,19 +45,39 @@ function allHaveResults(){ const d=ensure();
   return okEnd && okSaut && okVit;
 }
 function payload(){ const d=ensure();
-  const E=(i)=>{const e=d.eleves[i];return {"nom":e.Nom,"prenom":e.Prenom,"classe":e.Classe,"sexe":e.Sexe,"vma":+(vmaFrom(i)||0),"saut en longueur":+(bestLongueur(i)||0),"vitesse":+(vitesseFrom(i)||0)};};
+  const E=(i)=>{const e=d.eleves[i]; const t=d.tests.Endurance[i]||{};
+    const pal = t.palier||0; const nav = t.navette||0; const vma = (t.vma_kmh!=null)? t.vma_kmh : (pal? +(8.0+0.5*pal).toFixed(1):0);
+    return {"nom":e.Nom,"prenom":e.Prenom,"classe":e.Classe,"sexe":e.Sexe,
+            "Palier":pal,"Navette":nav,"VMA":vma,
+            "vma":vma,"saut en longueur":+( (d.tests.Saut[i]&&d.tests.Saut[i].best_cm)||0 ),
+            "vitesse":+( (d.tests.Vitesse[i]&&d.tests.Vitesse[i].t_30m_s)||0 )};
+  };
   return [E(0),E(1)];
 }
+
+function makeQR(text){
+  function drawLocal(){ try{ if(typeof QRCode==='undefined') return false; const holder=document.getElementById('qrHolder'); holder.innerHTML=''; const d=document.createElement('div'); holder.appendChild(d); new QRCode(d,{text:text,width:420,height:420,correctLevel:QRCode.CorrectLevel.L}); return true;}catch(e){ return false; } }
+  function drawRemote(){ var url = "https://chart.googleapis.com/chart?chs=420x420&cht=qr&chld=L|0&chl=" + encodeURIComponent(text); const img=document.getElementById('qrimg'); img.src=url; }
+  if(!drawLocal()){ let waited=0; const ti=setInterval(function(){ waited+=100; if(drawLocal()){ clearInterval(ti);} else if(waited>=2500){ clearInterval(ti); drawRemote(); } },100); }
+}
+
+function downloadPNG(){
+  const canvas = document.querySelector('#qrHolder canvas');
+  if(canvas){ const url = canvas.toDataURL('image/png'); const a=document.createElement('a'); a.href=url; a.download='TestSixieme_QR.png'; a.click(); }
+}
+function copyJSON(){
+  const data = JSON.stringify(payload());
+  navigator.clipboard && navigator.clipboard.writeText(data).then(()=>alert('JSON copié.')).catch(()=>alert('JSON :\n'+data));
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
   if(localStorage.getItem(KEY_SEC)!=='1'){ alert('Lire la fiche sécurité'); location.href='securite.html'; return; }
   if(!bothIdent()){ alert('Compléter l’identité des 2 élèves'); location.href='identite.html'; return; }
   if(!allHaveResults()){ const m=document.getElementById('msg'); m.style.display='block'; setTimeout(()=>{ location.href='menu.html'; }, 1500); return; }
   const data = JSON.stringify(payload());
-  (function(){
-    function drawLocal(){ try{ if(typeof QRCode==='undefined') return false; var img=document.getElementById('qrimg'); var wrap=img.parentElement; img.remove(); var t=document.createElement('div'); t.id='qrTarget'; wrap.appendChild(t); new QRCode(t,{text:data,width:420,height:420,correctLevel:QRCode.CorrectLevel.L}); return true;}catch(e){ return false; } }
-    function drawRemote(){ var url = "https://chart.googleapis.com/chart?chs=420x420&cht=qr&chld=L|0&chl=" + encodeURIComponent(data); document.getElementById('qrimg').src=url; }
-    if(!drawLocal()){ var waited=0; var ti=setInterval(function(){ waited+=100; if(drawLocal()){ clearInterval(ti);} else if(waited>=2500){ clearInterval(ti); drawRemote(); } },100); }
-  })();
+  makeQR(data);
+  document.getElementById('dl').onclick=downloadPNG;
+  document.getElementById('copy').onclick=copyJSON;
 });
 </script>
 </body></html>
