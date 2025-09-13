@@ -45,12 +45,24 @@ function allHaveResults(){ const d=ensure();
   return okEnd && okSaut && okVit;
 }
 function payload(){ const d=ensure();
-  const E=(i)=>{const e=d.eleves[i]; const t=d.tests.Endurance[i]||{};
-    const pal = t.palier||0; const nav = t.navette||0; const vma = (t.vma_kmh!=null)? t.vma_kmh : (pal? +(8.0+0.5*pal).toFixed(1):0);
-    return {"nom":e.Nom,"prenom":e.Prenom,"classe":e.Classe,"sexe":e.Sexe,
-            "Palier":pal,"Navette":nav,"VMA":vma,
-            "vma":vma,"saut en longueur":+( (d.tests.Saut[i]&&d.tests.Saut[i].best_cm)||0 ),
-            "vitesse":+( (d.tests.Vitesse[i]&&d.tests.Vitesse[i].t_30m_s)||0 )};
+  const E=(i)=>{
+    const e=d.eleves[i]||{}; const tE=d.tests.Endurance[i]||{}; const tS=d.tests.Saut[i]||{}; const tV=d.tests.Vitesse[i]||{};
+    const pal = tE.palier||0;
+    const nav = tE.navette||0;
+    const vma = (tE.vma_kmh!=null) ? Math.round(tE.vma_kmh*10)/10 : (pal? Math.round((8.0+0.5*pal)*10)/10 : 0);
+    const saut = (tS.best_cm!=null) ? Math.round(tS.best_cm) : 0;
+    const vit  = (tV.t_30m_s!=null) ? Math.round(tV.t_30m_s*100)/100 : 0;
+    return {
+      "nom": e.Nom || "",
+      "prenom": e.Prenom || "",
+      "classe": e.Classe || "",
+      "sexe": e.Sexe || "",
+      "Palier": pal,
+      "Navette": nav,
+      "VMA": vma,
+      "Saut en longueur": saut,
+      "Vitesse 30m": vit
+    };
   };
   return [E(0),E(1)];
 }
