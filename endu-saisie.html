@@ -55,15 +55,12 @@ label{font-size:16px;display:block;margin-bottom:6px}
 </div>
 <script>
 
-const LOCK={Endu:'ts6e.lock.endu',Saut:'ts6e.lock.saut',Vit:'ts6e.lock.vit'};
+const LOCK={Endu:'ts6e.lock.endu'};
 function isLocked(k){ return localStorage.getItem(k)==='1'; }
 function setLock(k,on){ localStorage.setItem(k, on?'1':'0'); }
-function setDisabled(scope,on){ scope.querySelectorAll('input,select,button').forEach(el=>{
-  const id=el.id||''; if(id==='edit' || id==='save' || el.getAttribute('href')) return;
-  el.disabled=!!on;
-}); }
-
+function setDisabled(scope,on){ scope.querySelectorAll('input,select,button').forEach(el=>{ const id=el.id||''; if(id==='edit'||id==='save'||el.getAttribute('href')) return; el.disabled=!!on; }); }
 function vmaFromPalier(p){return 8.0+0.5*p}
+function shouldUnlockFromURL(){ return /[?&]unlock=1/.test(location.search); }
 document.addEventListener('DOMContentLoaded',()=>{
   if(localStorage.getItem('ts6e.secRead')!=='1'){ go('securite.html'); return; }
   const d=ensure();
@@ -71,15 +68,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     const card=document.querySelector('[data-i="'+i+'"]');
     const e=d.eleves[i]||{}; card.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||'');
     const saved=(d.tests.Endurance[i]||{});
-    if(saved.palier!=null) card.querySelector('.palier').value=saved.palier;
-    if(saved.navette!=null) card.querySelector('.navette').value=saved.navette;
-    const vOut=card.querySelector('.vmaCalc');
-    const update=()=>{ const pv=+card.querySelector('.palier').value||0; vOut.textContent=pv? vmaFromPalier(pv).toFixed(1)+' km/h' : '-'; };
-    card.querySelector('.palier').addEventListener('input', update);
-    card.querySelector('.palier').addEventListener('change', update);
-    update();
+    const pIn=card.querySelector('.palier'), nIn=card.querySelector('.navette'), vOut=card.querySelector('.vmaCalc');
+    if(saved.palier!=null) pIn.value=saved.palier;
+    if(saved.navette!=null) nIn.value=saved.navette;
+    const update=()=>{ const pv=+pIn.value||0; vOut.textContent=pv? vmaFromPalier(pv).toFixed(1)+' km/h' : '-'; };
+    pIn.addEventListener('input', update); pIn.addEventListener('change', update); update();
   });
   const page=document.querySelector('.section-center');
+  if(shouldUnlockFromURL()){ setLock(LOCK.Endu,false); }
   if(isLocked(LOCK.Endu)) setDisabled(page,true);
   document.getElementById('edit').onclick=()=>{ if(confirm('Modifier les données enregistrées ?')){ setLock(LOCK.Endu,false); setDisabled(page,false); } };
   document.getElementById('save').onclick=()=>{
