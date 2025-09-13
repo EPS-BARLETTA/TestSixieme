@@ -3,8 +3,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>TestSixième — Accueil</title>
-<style>:root{--ink:#0b1324;--muted:#475569;--border:#e5e7eb;--card:#ffffff;--blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;--orange:#f59e0b;--violet:#7c3aed;--e1bg:#eff6ff;--e2bg:#ecfdf5;}
+<title>TestSixième — Accueil</title><style>:root{--ink:#0b1324;--muted:#475569;--border:#e5e7eb;--card:#ffffff;--blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;--orange:#f59e0b;--violet:#7c3aed;--e1bg:#eff6ff;--e2bg:#ecfdf5;}
 *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f8fafc,#eef2ff); display:flex;flex-direction:column;min-height:100vh}
 .container{max-width:980px;margin:0 auto;padding:24px;display:flex;flex-direction:column;min-height:100vh}
 .section-center{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center}
@@ -47,20 +46,13 @@ label{font-size:16px;color:#334155;display:block;margin-bottom:6px}
 .big-btn.orange{background:linear-gradient(135deg,#f59e0b,#fb923c)}
 .seclines p{margin:.35rem 0}
 .center{display:flex;flex-direction:column;align-items:center}
-.small{font-size:14px;color:#64748b}
-/* tiny inline control */
-.ui-mini{display:inline-block;font:600 13px/1 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:7px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;color:#0b1324;text-decoration:none}
-.ui-mini.primary{background:var(--blue2);color:#fff;border:none}
-.ui-mini+.ui-mini{margin-left:8px}
-</style>
-</head>
+.small{font-size:14px;color:#64748b}</style></head>
 <body><div class="container">
   <div class="section-center" style="gap:10px">
 <h1>TestSixième</h1>
 <a class="btn primary" style="font-size:28px;padding:22px 30px" href="securite.html">Démarrer</a>
-<div id="actions-row" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
   <a class="btn help" href="securite.html">Aide</a>
-  <!-- mini toggle is injected here -->
 </div>
 </div>
   <div class="footer">
@@ -81,80 +73,5 @@ function secRead(){return localStorage.getItem(KEY_SEC)==='1'}
 function requireSec(){ if(!secRead()){ alert('Merci de lire la fiche Sécurité avant de continuer.'); location.href='securite.html'; return false;} return true; }
 function go(h){location.href=h}
 if('serviceWorker' in navigator){ window.addEventListener('load', ()=>{ navigator.serviceWorker.register('service-worker.js').catch(()=>{}); }); }</script>
-
-<!-- Inline UI toggle + hard overrides injection -->
-<script>
-(function(){
-  const PREF_KEY='uiMode'; // 'auto'|'phone'
-  const phoneCSS = `
-  /* === HARD PHONE OVERRIDES (inline) === */
-  .container{max-width:420px!important}
-  h1{font-size:26px!important}
-  .btn{padding:12px 14px!important;min-width:140px!important;border-radius:14px!important;font-size:16px!important}
-  .grid.cards{grid-template-columns:1fr!important}
-  .big-btn{min-width:260px!important;padding:18px 20px!important;font-size:18px!important}
-  .card{min-height:auto!important}
-  .live{font-size:36px!important;min-width:140px!important}
-  `;
-
-  function applyPhoneStyle(on){
-    let el = document.getElementById('ui-phone-overrides');
-    if(on){
-      if(!el){
-        el = document.createElement('style');
-        el.id = 'ui-phone-overrides';
-        el.textContent = phoneCSS;
-        document.head.appendChild(el);
-      }
-      document.documentElement.setAttribute('data-ui-mode','phone');
-    }else{
-      if(el){ el.remove(); }
-      document.documentElement.removeAttribute('data-ui-mode');
-    }
-  }
-
-  function current(){
-    return localStorage.getItem(PREF_KEY) || 'auto';
-  }
-
-  function set(mode){
-    localStorage.setItem(PREF_KEY, mode);
-    applyPhoneStyle(mode==='phone');
-  }
-
-  function buildControl(){
-    const row = document.getElementById('actions-row');
-    if(!row) return;
-    const pref = current();
-    if(pref==='phone'){
-      const tag = document.createElement('span');
-      tag.className = 'ui-mini';
-      tag.textContent = '📱 Téléphone ✓';
-      const back = document.createElement('a');
-      back.href = '#'; back.className = 'ui-mini';
-      back.textContent = 'Revenir en auto';
-      back.addEventListener('click', (e)=>{ e.preventDefault(); set('auto'); });
-      row.append(tag, back);
-    }else{
-      const opt = document.createElement('a');
-      opt.href = '#'; opt.className = 'ui-mini primary';
-      opt.textContent = '📱 Optimiser pour téléphone';
-      opt.addEventListener('click', (e)=>{ e.preventDefault(); set('phone'); });
-      const keep = document.createElement('a');
-      keep.href = '#'; keep.className = 'ui-mini';
-      keep.textContent = 'Laisser en auto';
-      keep.addEventListener('click', (e)=>{ e.preventDefault(); set('auto'); });
-      row.append(opt, keep);
-    }
-    // Apply on load
-    applyPhoneStyle(pref==='phone');
-  }
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded', buildControl, {once:true});
-  }else{
-    buildControl();
-  }
-})();
-</script>
+<script></script>
 </body></html>
