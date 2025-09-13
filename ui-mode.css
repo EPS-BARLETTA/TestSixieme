@@ -1,0 +1,41 @@
+/* ui-mode.css — Add-on: forces phone sizing when user chooses it.
+   Default is "Auto" (responsive). Apply via data-ui-mode on <html>.
+*/
+:root{
+  --container-max: 1000px;
+  --gap: 12px;
+  --tap: 44px;
+  --text: clamp(14px, 1.8vw, 18px);
+  --h1: clamp(20px, 3.2vw, 28px);
+  --btn: clamp(14px, 1.8vw, 18px);
+}
+/* Force Phone (compact) */
+html[data-ui-mode="phone"]{
+  --container-max: 480px;
+  --gap: 10px;
+  --tap: 46px;
+  --text: 16px;
+  --h1: 22px;
+  --btn: 16px;
+}
+/* Default Auto via media query */
+@media (min-width: 768px){
+  html:not([data-ui-mode="phone"]){
+    --container-max: 1100px;
+    --gap: 16px;
+    --tap: 52px;
+    --text: 18px;
+    --h1: 28px;
+    --btn: 18px;
+  }
+}
+/* Generic helpers (non-invasive) */
+.container, main, .wrap, .main {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 12px;
+}
+h1, .title { font-size: var(--h1); line-height: 1.2; }
+button, .button, input[type="submit"]{ min-height: var(--tap); font-size: var(--btn); }
+input, select{ min-height: calc(var(--tap) - 6px); font-size: var(--text); }
+@media print { #home-ui-mode-banner { display:none; } }

@@ -3,7 +3,8 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>TestSixième — Accueil</title><style>:root{--ink:#0b1324;--muted:#475569;--border:#e5e7eb;--card:#ffffff;--blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;--orange:#f59e0b;--violet:#7c3aed;--e1bg:#eff6ff;--e2bg:#ecfdf5;}
+<title>TestSixième — Accueil</title>
+<style>:root{--ink:#0b1324;--muted:#475569;--border:#e5e7eb;--card:#ffffff;--blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;--orange:#f59e0b;--violet:#7c3aed;--e1bg:#eff6ff;--e2bg:#ecfdf5;}
 *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f8fafc,#eef2ff); display:flex;flex-direction:column;min-height:100vh}
 .container{max-width:980px;margin:0 auto;padding:24px;display:flex;flex-direction:column;min-height:100vh}
 .section-center{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center}
@@ -46,7 +47,12 @@ label{font-size:16px;color:#334155;display:block;margin-bottom:6px}
 .big-btn.orange{background:linear-gradient(135deg,#f59e0b,#fb923c)}
 .seclines p{margin:.35rem 0}
 .center{display:flex;flex-direction:column;align-items:center}
-.small{font-size:14px;color:#64748b}</style></head>
+.small{font-size:14px;color:#64748b}</style>
+
+<!-- UI mode CSS (ajout) -->
+<link rel="stylesheet" href="ui-mode.css">
+<link rel="stylesheet" href="home-ui-mode.css">
+</head>
 <body><div class="container">
   <div class="section-center" style="gap:10px">
 <h1>TestSixième</h1>
@@ -73,5 +79,8 @@ function secRead(){return localStorage.getItem(KEY_SEC)==='1'}
 function requireSec(){ if(!secRead()){ alert('Merci de lire la fiche Sécurité avant de continuer.'); location.href='securite.html'; return false;} return true; }
 function go(h){location.href=h}
 if('serviceWorker' in navigator){ window.addEventListener('load', ()=>{ navigator.serviceWorker.register('service-worker.js').catch(()=>{}); }); }</script>
-<script></script>
+
+<!-- UI mode JS (ajout) -->
+<script src="ui-mode.js" defer></script>
+<script src="home-ui-mode.js" defer></script>
 </body></html>

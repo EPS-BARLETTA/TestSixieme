@@ -1,0 +1,25 @@
+/* home-ui-mode.css — simple banner for the landing page */
+#home-ui-mode-banner{
+  position: sticky; top: 0; z-index: 9999;
+  display: flex; justify-content: center;
+  padding: 8px 10px;
+  background: linear-gradient(90deg, rgba(0,0,0,.05), rgba(0,0,0,.08));
+  backdrop-filter: blur(4px);
+}
+#home-ui-mode-banner .card{
+  display: flex; gap: 10px; align-items: center;
+  padding: 8px 12px;
+  background: white; border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+#home-ui-mode-banner button{
+  border: none; border-radius: 999px; padding: 10px 14px; cursor: pointer;
+}
+#home-ui-mode-banner .primary{ background:#1e90ff; color:white; }
+#home-ui-mode-banner .link{ background:transparent; text-decoration: underline; }
+#home-ui-mode-banner .state{ font-weight:700; }
+@media (max-width: 480px){
+  #home-ui-mode-banner{ padding: 6px; }
+  #home-ui-mode-banner .card{ flex-wrap: wrap; gap:6px; }
+}
