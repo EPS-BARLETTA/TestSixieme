@@ -1,14 +1,14 @@
 <!DOCTYPE html><html lang="fr"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TestSixième — Mode Prof Luc‑Léger</title><style>:root{--ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;--blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;--orange:#f59e0b;--violet:#7c3aed;--e1bg:#eff6ff;--e2bg:#ecfdf5;}
+<title>TestSixième — Mode Prof Luc‑Léger</title>
+<style>:root{--ink:#0b1324;--muted:#64748b;--border:#e5e7eb;--card:#ffffff;--blue:#2563eb;--blue2:#3b82f6;--green:#16a34a;--green2:#22c55e;--orange:#f59e0b;--violet:#7c3aed;--e1bg:#eff6ff; --e2bg:#ecfdf5;}
 *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f8fafc,#eef2ff); display:flex;flex-direction:column;min-height:100vh}
 .container{max-width:980px;margin:0 auto;padding:24px;display:flex;flex-direction:column;min-height:100vh}
 .section-center{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center}
 .footer{padding:24px 0;color:#64748b;text-align:center;font-size:14px}
 h1{font-size:50px;margin:0 0 8px} .h-test{font-size:28px;margin:0 0 8px}
 .btn{padding:16px 20px;border-radius:16px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer;text-decoration:none;color:#0b1324;display:inline-block}
-.btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)}
-.btn.help{background:linear-gradient(135deg,var(--orange),#fb923c);color:#fff;border:none}
+.btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)} .btn.help{background:linear-gradient(135deg,var(--orange),#fb923c);color:#fff;border:none}
 .grid{display:grid;gap:16px} .grid.cards{grid-template-columns:repeat(2, minmax(320px, 1fr)); align-items:stretch}
 .card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 10px 28px rgba(0,0,0,.08)} .card.e1{background:var(--e1bg)} .card.e2{background:var(--e2bg)}
 label{font-size:14px;color:#334155;display:block;margin-bottom:6px} .input{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:#fff;font-size:16px}
@@ -19,34 +19,38 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px} .input{width
 .kpi{flex:1;min-width:240px;background:rgba(255,255,255,.9);border:1px solid var(--border);padding:18px;border-radius:18px;box-shadow:0 8px 24px rgba(10,18,40,.08)} .kpi .big{font-size:42px;font-weight:800}
 .progress{height:44px;border:1px solid var(--border);border-radius:999px;background:#fff;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.06);position:relative}
 .progress>div.bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));width:0}
-.runner{position:absolute;top:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#fb923c);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
+.runner{position:absolute;top:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#fb923c,#f59e0b);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
 .prof-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:100%;max-width:900px} .prof-kpis .kpi .big{font-size:56px}
 .chrono-grid{display:grid;grid-template-columns:1fr;gap:18px} @media(min-width:900px){ .chrono-grid{grid-template-columns:1fr 1fr;} }
-.live{font-variant-numeric:tabular-nums;font-size:58px;font-weight:800;letter-spacing:.5px;padding:10px 14px;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));min-width:190px;text-align:center}
+.live{font-variant-numeric:tabular-nums;font-size:58px;font-weight:800;letter-spacing:.5px;padding:10px 14px;border-radius:12px;color:#fff;background:linear-gradient(135deg,#2563eb,#7c3aed);min-width:190px;text-align:center}
 .card.e2 .live{background:linear-gradient(135deg,#16a34a,#22c55e)} .card .input.chrono{font-size:20px} .card .btn{min-width:120px} .card{min-height:260px}
-.big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh}
-.big-btn{display:block;min-width:340px;text-align:center;padding:20px 24px;border-radius:18px;color:#fff;font-weight:800;font-size:20px;box-shadow:0 10px 26px rgba(0,0,0,.12)} .big-btn.blue{background:linear-gradient(135deg,#2563eb,#7c3aed)} .big-btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)} .big-btn.orange{background:linear-gradient(135deg,#f59e0b,#fb923c)}
-.seclines p{margin:.3rem 0} .center{display:flex;flex-direction:column;align-items:center}</style></head>
-<body><div class="container">
+.big-btns{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;min-height:40vh} .big-btn{display:block;min-width:340px;text-align:center;padding:20px 24px;border-radius:18px;color:#fff;font-weight:800;font-size:20px;box-shadow:0 10px 26px rgba(0,0,0,.12)} .big-btn.blue{background:linear-gradient(135deg,#2563eb,#7c3aed)} .big-btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)} .big-btn.orange{background:linear-gradient(135deg,#f59e0b,#fb923c)}
+.seclines p{margin:.3rem 0} .center{display:flex;flex-direction:column;align-items:center} body{transition:background 400ms ease}</style>
+</head><body>
+<div class="container">
   <div class="section-center" style="gap:10px">
-<div class="tag">Mode Prof — Luc‑Léger</div>
-<div class="prof-kpis">
-  <div class="kpi"><div>Palier</div><div class="big" id="palier">1</div></div>
-  <div class="kpi"><div>Navette</div><div class="big" id="navette">1</div></div>
-  <div class="kpi"><div>VMA</div><div class="big" id="vma">8.5 km/h</div></div>
-  <div class="kpi"><div>Bip dans</div><div class="big" id="bipdans">--</div></div>
-</div>
-<div class="progress" style="width:96%;max-width:1000px;margin:18px auto">
-  <div class="runner" id="runner" style="left:0%"></div>
-  <div class="bar" id="bar"></div>
-</div>
-<p class="badge">Au bip, atteins la ligne. Long bip = changement de palier.</p>
-<div class="row" style="justify-content:center">
-  <button id="startbtn" class="btn primary">Démarrer</button>
-  <button id="reinitbtn" class="btn">Réinitialiser</button>
-  <button id="consignes" class="btn" style="display:none">Consignes Prof</button>
-  <button id="consignesEleve" class="btn" style="display:none">Affichage élèves</button>
-  <a class="btn" href="menu.html">Menu</a>
+    <div class="tag">Mode Prof — Luc‑Léger</div>
+    <div class="prof-kpis">
+      <div class="kpi"><div>Palier</div><div class="big" id="palier">1</div></div>
+      <div class="kpi"><div>Navette</div><div class="big" id="navette">1</div></div>
+      <div class="kpi"><div>VMA</div><div class="big" id="vma">8.5 km/h</div></div>
+      <div class="kpi"><div>Bip dans</div><div class="big" id="bipdans">--</div></div>
+    </div>
+    <div class="progress" style="width:96%;max-width:1000px;margin:18px auto">
+      <div class="runner" id="runner" style="left:0%"></div>
+      <div class="bar" id="bar"></div>
+    </div>
+    <p class="badge">Au bip, atteins la ligne. Long bip = changement de palier.</p>
+    <div class="row" style="justify-content:center">
+      <button id="startbtn" class="btn primary">Démarrer</button>
+      <button id="reinitbtn" class="btn">Réinitialiser</button>
+      <button id="fsbtn" class="btn">Plein écran</button>
+      <button id="consignes" class="btn" style="display:none">Consignes Prof</button>
+      <button id="consignesEleve" class="btn" style="display:none">Affichage élèves</button>
+      <a class="btn" href="menu.html">Menu</a>
+    </div>
+  </div>
+  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
 </div>
 <div class="overlay" id="overlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.6);backdrop-filter:blur(2px)">
   <div class="card" style="width:min(92vw,420px);text-align:center">
@@ -79,45 +83,90 @@ label{font-size:14px;color:#334155;display:block;margin-bottom:6px} .input{width
     </div>
     <div style="display:flex;justify-content:center;gap:8px;margin-top:10px"><button id="closeEleve" class="btn">Fermer</button></div>
   </div>
-</div></div>
-  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
 </div>
-<script>const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
-function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
-  if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
-  return JSON.parse(localStorage.getItem(KEY));
-}
-function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
-function identOK(i){const e=ensure().eleves[i];return e&&e.Nom&&e.Prenom&&e.Classe&&e.Sexe}
-function bothIdent(){return identOK(0)&&identOK(1)}
-function secRead(){return localStorage.getItem(KEY_SEC)==='1'}
-function requireSec(){ if(!secRead()){ alert("Merci de lire la fiche Sécurité avant de continuer."); location.href='securite.html'; return false;} return true; }
-function go(h){location.href=h}</script>
 <script>
 function requireSec(){ if(localStorage.getItem('ts6e.secRead')!=='1'){ alert("Lire la fiche Sécurité avant de continuer."); location.href='securite.html'; return false;} return true; }
 let running=false, palier=1, shuttle=1, lastTs=0, secondsLeft=0, secPerShuttle=0, raf=null;
 function vmaFromPalier(p){ return 8.0 + 0.5*p; } // palier 1 = 8.5 km/h
 function secPerShuttleFromV(v){ const m=v*1000/3600; return 20/m; }
 function navettesForLevel(p){ const map={1:7,2:8,3:8,4:8,5:9,6:9,7:10,8:10,9:10,10:11,11:11}; return map[p] || 10; }
-function shortBeep(){ try{ const c=new (window.AudioContext||window.webkitAudioContext)(); const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=900; o.connect(g); g.connect(c.destination); g.gain.setValueAtTime(.0001,c.currentTime); g.gain.exponentialRampToValueAtTime(.35,c.currentTime+.01); g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.22); o.start(); o.stop(c.currentTime+.24);}catch{} }
-function longBeep(){ try{ const c=new (window.AudioContext||window.webkitAudioContext)(); const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=600; o.connect(g); g.connect(c.destination); g.gain.setValueAtTime(.0001,c.currentTime); g.gain.exponentialRampToValueAtTime(.5,c.currentTime+.02); g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.6); o.start(); o.stop(c.currentTime+.62);}catch{} }
+function shortBeep(){ AudioEngine.beep(900,240,0.35); }
+function longBeep(){ AudioEngine.beep(600,620,0.5); }
+const AudioEngine=(function(){
+  let ctx=null;
+  function ensure(){
+    try{
+      if(!ctx){
+        const C = window.AudioContext || window.webkitAudioContext;
+        if(!C) return null;
+        ctx = new C();
+      }
+      if(ctx.state==='suspended'){ ctx.resume(); }
+      return ctx;
+    }catch(e){ return null; }
+  }
+  function beep(freq, ms, vol){
+    const c=ensure(); if(!c) return;
+    try{
+      const o=c.createOscillator(); const g=c.createGain();
+      o.type='sine'; o.frequency.value=freq||880;
+      o.connect(g); g.connect(c.destination);
+      const t=c.currentTime;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol||0.3, t+0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+(ms||240)/1000);
+      o.start(t); o.stop(t+(ms||240)/1000+0.05);
+    }catch(e){}
+  }
+  return {beep};
+})();
+// Palette & fullscreen
+const PALETTES = [
+  'linear-gradient(180deg,#f8fafc,#eef2ff)',
+  'linear-gradient(180deg,#e0f2fe,#dbeafe)',
+  'linear-gradient(180deg,#dcfce7,#e0f2fe)',
+  'linear-gradient(180deg,#ffedd5,#fee2e2)',
+  'linear-gradient(180deg,#ede9fe,#e0e7ff)',
+  'linear-gradient(180deg,#fef9c3,#fde68a)',
+  'linear-gradient(180deg,#ffe4e6,#fae8ff)',
+  'linear-gradient(180deg,#e2e8f0,#f1f5f9)',
+  'linear-gradient(180deg,#e9d5ff,#d1fae5)',
+  'linear-gradient(180deg,#fce7f3,#e9d5ff)',
+  'linear-gradient(180deg,#dcfce7,#bbf7d0)'
+];
+function setBgForPalier(p){ try{ const idx=p % PALETTES.length; document.body.style.background=PALETTES[idx]; }catch(e){} }
+function isFullscreen(){ return document.fullscreenElement || document.webkitFullscreenElement; }
+function toggleFullscreen(){
+  const el = document.documentElement;
+  if(!isFullscreen()){
+    const req = el.requestFullscreen || el.webkitRequestFullscreen; if(req) req.call(el);
+    const b=document.getElementById('fsbtn'); if(b) b.textContent='Quitter plein écran';
+  }else{
+    const exit = document.exitFullscreen || document.webkitExitFullscreen; if(exit) exit.call(document);
+    const b=document.getElementById('fsbtn'); if(b) b.textContent='Plein écran';
+  }
+}
+document.addEventListener('fullscreenchange', ()=>{ const b=document.getElementById('fsbtn'); if(b) b.textContent = isFullscreen() ? 'Quitter plein écran' : 'Plein écran'; });
+document.addEventListener('webkitfullscreenchange', ()=>{ const b=document.getElementById('fsbtn'); if(b) b.textContent = isFullscreen() ? 'Quitter plein écran' : 'Plein écran'; });
+
 function initLL(){ palier=1; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; updateLL(); }
-function updateLL(){ const v=vmaFromPalier(palier); const prog = Math.max(0,Math.min(100,(1-secondsLeft/secPerShuttle)*100));
+function updateLL(){ const v=vmaFromPalier(palier); const prog = Math.max(0,Math.min(100,(1-secondsLeft/secPerShuttle)*100)); setBgForPalier(palier);
   document.getElementById('palier').textContent=palier; document.getElementById('navette').textContent=shuttle; document.getElementById('vma').textContent=v.toFixed(1)+' km/h'; document.getElementById('bipdans').textContent=secondsLeft.toFixed(1)+' s';
   document.getElementById('bar').style.width=prog+'%'; document.getElementById('runner').style.left=prog+'%';
 }
 function loop(ts){ if(!running) return; const dt=(ts-lastTs)/1000; lastTs=ts; secondsLeft-=dt; if(secondsLeft<=0){ const navettes=navettesForLevel(palier); if(shuttle>=navettes){ palier++; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; longBeep(); } else { shuttle++; secondsLeft=secPerShuttle; shortBeep(); } updateLL(); } updateLL(); raf=requestAnimationFrame(loop); }
-function toggleRun(){ if(!running){ running=true; lastTs=performance.now(); document.getElementById('startbtn').textContent='Pause'; raf=requestAnimationFrame(loop);} else { running=false; document.getElementById('startbtn').textContent='Démarrer'; } }
+let audioUnlocked=false;
+function toggleRun(){ if(!audioUnlocked){ try{ AudioEngine.beep(700,120,0.2); audioUnlocked=true; }catch(e){} } if(!running){ running=true; lastTs=performance.now(); document.getElementById('startbtn').textContent='Pause'; raf=requestAnimationFrame(loop);} else { running=false; document.getElementById('startbtn').textContent='Démarrer'; } }
 function reinitLL(){ running=false; palier=1; shuttle=1; secPerShuttle=secPerShuttleFromV(vmaFromPalier(palier)); secondsLeft=secPerShuttle; updateLL(); document.getElementById('startbtn').textContent='Démarrer'; }
 document.addEventListener('DOMContentLoaded', ()=>{
   if(!requireSec()) return;
   const overlay=document.getElementById('overlay'); const input=document.getElementById('pin'); const go=document.getElementById('go'); const cons=document.getElementById('consignes'); const consEleve=document.getElementById('consignesEleve');
   go.onclick=()=>{ if(input.value==='57'){ overlay.style.display='none'; initLL(); cons.style.display='inline-block'; consEleve.style.display='inline-block'; } else alert('Code incorrect'); };
-  document.getElementById('startbtn').onclick=toggleRun;
-  document.getElementById('reinitbtn').onclick=reinitLL;
+  document.getElementById('startbtn').onclick=toggleRun; document.getElementById('reinitbtn').onclick=reinitLL; const fsb=document.getElementById('fsbtn'); if(fsb) fsb.onclick=toggleFullscreen;
   cons.onclick=()=>{ document.getElementById('consignesModal').style.display='flex'; };
   document.getElementById('closeCons').onclick=()=>{ document.getElementById('consignesModal').style.display='none'; };
   consEleve.onclick=()=>{ document.getElementById('eleveModal').style.display='flex'; };
   document.getElementById('closeEleve').onclick=()=>{ document.getElementById('eleveModal').style.display='none'; };
-});</script>
+});
+</script>
 </body></html>

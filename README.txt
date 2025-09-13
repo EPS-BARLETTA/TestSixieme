@@ -1,0 +1,1 @@
+TestSixième v4.9.15 — Mode Prof: couleur par palier + bouton Plein écran. AudioEngine iPad OK. QR local multi-CDN + fallback.

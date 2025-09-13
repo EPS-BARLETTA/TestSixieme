@@ -1,17 +1,13 @@
 <!DOCTYPE html><html lang="fr"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TestSixième — QR</title>
-<style>html,body{height:100%;margin:0} body{display:flex;align-items:center;justify-content:center;background:#ffffff;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif}
-.wrap{display:flex;flex-direction:column;align-items:center;gap:16px} #qrimg{display:block;width:420px;height:420px;image-rendering:pixelated}
-.topbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);} .topbar a{padding:10px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#f8fafc;color:#0b1324;text-decoration:none}
-.msg{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#0b1324;color:#fff;padding:10px 14px;border-radius:12px;display:none}</style>
+<style>html,body{height:100%;margin:0} body{display:flex;align-items:center;justify-content:center;background:#ffffff;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif}.wrap{display:flex;flex-direction:column;align-items:center;gap:16px} #qrimg{display:block;width:420px;height:420px;image-rendering:pixelated}.topbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);} .topbar a{padding:10px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#f8fafc;color:#0b1324;text-decoration:none}.msg{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#0b1324;color:#fff;padding:10px 14px;border-radius:12px;display:none}</style>
 <script defer src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script defer src="https://unpkg.com/qrcode-js-package@1.0.4/qrcode.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head><body>
 <div class="topbar"><a id="retour" href="menu.html">Retour Menu</a></div>
-<div class="wrap"><img id="qrimg" alt="QR"/></div>
-<div class="msg" id="msg">Complétez d’abord les 3 tests pour les 2 élèves.</div>
+<div class="wrap"><img id="qrimg" alt="QR"/></div><div class="msg" id="msg">Complétez d’abord les 3 tests pour les 2 élèves.</div>
 <script>
 const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
 function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
