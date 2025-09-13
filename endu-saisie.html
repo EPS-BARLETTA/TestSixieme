@@ -1,98 +1,76 @@
 <!DOCTYPE html><html lang="fr"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="manifest" href="manifest.webmanifest">
-<title>TestSixième — Endurance</title>
+<title>Endurance — Saisie</title>
 <style>
-:root{--ink:#0b1324;--border:#e5e7eb;--e1bg:#eff6ff;--e2bg:#ecfdf5;--blue:#2563eb;--blue2:#3b82f6}
-*{box-sizing:border-box}body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f8fafc,#eef2ff);display:flex;min-height:100vh}
-.container{max-width:980px;margin:0 auto;padding:24px;display:flex;flex-direction:column;min-height:100vh;width:100%}
-.section-center{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center}
-.footer{padding:24px 0;color:#64748b;text-align:center;font-size:14px}
-.h-test{font-size:28px;margin:0 0 8px}
-.grid{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(320px,1fr));align-items:stretch}
-.card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 10px 28px rgba(0,0,0,.08);min-height:280px}
-.card.e1{background:var(--e1bg)} .card.e2{background:var(--e2bg)}
-label{font-size:16px;display:block;margin-bottom:6px}
-.input{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:14px;font-size:18px}
-.row{display:flex;gap:14px;flex-wrap:wrap}
-.col{flex:1;min-width:220px}
-.badge{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#475569;background:#fff;margin-bottom:8px}
-.kpi{flex:1;min-width:240px;background:#fff;border:1px solid var(--border);padding:18px;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.06)} .kpi .big{font-size:42px;font-weight:800}
-.sticky-actions{position:sticky;bottom:0;display:flex;gap:12px;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);padding:12px 0;margin-top:18px}
-.btn{padding:16px 20px;border-radius:16px;border:1px solid var(--border);background:#fff;cursor:pointer;min-width:160px}
-.btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;box-shadow:0 12px 30px rgba(37,99,235,.25)}
+  body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;background:#f8fafc;color:#0b1324}
+  .wrap{max-width:980px;margin:0 auto;padding:18px}
+  h1{margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:900px){ .grid{grid-template-columns:1fr 1fr} }
+  .card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 10px 26px rgba(0,0,0,.06)}
+  label{display:block;margin:8px 0 6px}
+  input,select,button{padding:12px 14px;border-radius:12px;border:1px solid #e5e7eb;font-weight:600}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .ok{background:#22c55e;color:#fff;border:none}
+  .back{background:#3b82f6;color:#fff;border:none}
+  .note{font-size:14px;color:#475569}
 </style>
-</head><body><div class="container">
-  <div class="section-center" style="gap:10px">
-    <h2 class="h-test">Endurance — Luc‑Léger</h2>
-    <div class="grid">
-      <div class="card e1" data-i="0">
-        <div class="badge who">Élève 1</div>
-        <div class="row">
-          <div class="col"><label>Palier atteint</label><input class="input palier" type="number" min="1" step="1" placeholder="6"></div>
-          <div class="col"><label>Navette atteinte</label><input class="input navette" type="number" min="1" step="1" placeholder="3"></div>
-        </div>
-        <div class="row">
-          <div class="col"><div class="kpi"><div>VMA (calculée)</div><div class="big vmaCalc">-</div></div></div>
-          <div class="col"></div>
-        </div>
-      </div>
-      <div class="card e2" data-i="1">
-        <div class="badge who">Élève 2</div>
-        <div class="row">
-          <div class="col"><label>Palier atteint</label><input class="input palier" type="number" min="1" step="1" placeholder="6"></div>
-          <div class="col"><label>Navette atteinte</label><input class="input navette" type="number" min="1" step="1" placeholder="3"></div>
-        </div>
-        <div class="row">
-          <div class="col"><div class="kpi"><div>VMA (calculée)</div><div class="big vmaCalc">-</div></div></div>
-          <div class="col"></div>
-        </div>
-      </div>
-    </div>
-    <div class="sticky-actions"><a class="btn" href="menu.html">Menu</a><button class="btn primary" id="save">Enregistrer & Menu</button></div>
+</head>
+<body><div class="wrap">
+  <h1>Saisie Endurance (Luc Léger)</h1>
+  <div class="grid">
+    <form class="card" id="f1">
+      <h3>Élève 1</h3>
+      <label>Palier</label><input type="number" id="p1" min="1" max="21" required>
+      <label>Navette</label><input type="number" id="n1" min="1" max="20" required>
+      <div class="note">VMA estimée : <span id="v1">—</span> km/h</div>
+      <div class="row"><button class="ok" type="submit">Enregistrer E1</button></div>
+    </form>
+    <form class="card" id="f2">
+      <h3>Élève 2</h3>
+      <label>Palier</label><input type="number" id="p2" min="1" max="21" required>
+      <label>Navette</label><input type="number" id="n2" min="1" max="20" required>
+      <div class="note">VMA estimée : <span id="v2">—</span> km/h</div>
+      <div class="row"><button class="ok" type="submit">Enregistrer E2</button></div>
+    </form>
   </div>
-  <div class="footer">TestSixième — Équipe EPS Lycée Vauban — LUXEMBOURG — JB</div>
+  <div class="row" style="margin-top:14px">
+    <button class="back" onclick="location.href='menu.html'">⬅︎ Retour au menu</button>
+  </div>
 </div>
 <script>
-const KEY='ts6e.duo'; const KEY_SEC='ts6e.secRead';
+const KEY='ts6e.duo';
 function ensure(){let d; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch{d=null}
   if(!d){d={eleves:[{Nom:'',Prenom:'',Classe:'',Sexe:''},{Nom:'',Prenom:'',Classe:'',Sexe:''}],tests:{Endurance:[null,null],Saut:[null,null],Vitesse:[null,null]}}; localStorage.setItem(KEY,JSON.stringify(d));}
   return JSON.parse(localStorage.getItem(KEY));
 }
-function saveDuo(d){localStorage.setItem(KEY,JSON.stringify(d))}
-function vmaFromPalier(p){return 8.0+0.5*p}
-function boot(){
-  if(localStorage.getItem(KEY_SEC)!=='1'){ location.href='securite.html'; return; }
-  const d=ensure();
-  [0,1].forEach(i=>{
-    const card=document.querySelector('[data-i="'+i+'"]');
-    const e=d.eleves[i]||{}; card.querySelector('.who').textContent=(e.Prenom||'')+' '+(e.Nom||'');
-    const pIn=card.querySelector('.palier'), nIn=card.querySelector('.navette'), vOut=card.querySelector('.vmaCalc');
-    const saved=(d.tests.Endurance[i]||{});
-    if(saved.palier!=null) pIn.value=saved.palier;
-    if(saved.navette!=null) nIn.value=saved.navette;
-    const update=()=>{ const pv=+pIn.value||0; vOut.textContent = pv? vmaFromPalier(pv).toFixed(1)+' km/h' : '-'; };
-    pIn.addEventListener('input', update);
-    pIn.addEventListener('change', update);
-    // initial compute
-    update();
-  });
-  document.getElementById('save').addEventListener('click', ()=>{
-    const d2=ensure();
-    let ok=true;
-    [0,1].forEach(i=>{
-      const card=document.querySelector('[data-i="'+i+'"]');
-      const pal=+(card.querySelector('.palier').value||0);
-      const nav=+(card.querySelector('.navette').value||0);
-      const vma = pal>0 ? +vmaFromPalier(pal).toFixed(1) : 0;
-      if(!(pal>0 && nav>0 && vma>0)) ok=false;
-      d2.tests.Endurance[i]={palier:pal, navette:nav, vma_kmh:vma};
-    });
-    if(!ok){ alert('Renseigner Palier et Navette (la VMA est calculée) pour les deux élèves.'); return; }
-    saveDuo(d2);
-    location.href='menu.html';
+function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
+// VMA from palier (approx): 8 + 0.5 * palier
+const vma = p => +(8 + 0.5*Number(p)).toFixed(1);
+
+function saveE(i, p, n){
+  const d = ensure();
+  const rec = { Palier:Number(p), Navette:Number(n), VMA:vma(p) };
+  d.tests.Endurance[i] = rec;
+  save(d);
+  alert('Endurance E'+(i+1)+' enregistrée : Palier '+p+' / Navette '+n+' (VMA '+rec.VMA+' km/h)');
+}
+
+function bind(fid, pid, nid, vid, idx){
+  const f = document.getElementById(fid);
+  const p = document.getElementById(pid);
+  const n = document.getElementById(nid);
+  const v = document.getElementById(vid);
+  function upd(){ v.textContent = isFinite(Number(p.value)) ? vma(p.value).toFixed(1) : '—'; }
+  p.addEventListener('input', upd); upd();
+  f.addEventListener('submit', e=>{
+    e.preventDefault();
+    if(!p.value || !n.value){ alert('Renseigne Palier et Navette.'); return; }
+    saveE(idx, p.value, n.value);
   });
 }
-document.addEventListener('DOMContentLoaded', boot);
+bind('f1','p1','n1','v1',0);
+bind('f2','p2','n2','v2',1);
 </script>
+<script src="ui-autoinject.js"></script>
 </body></html>
